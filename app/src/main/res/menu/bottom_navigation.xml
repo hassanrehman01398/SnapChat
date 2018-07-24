@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_photo"
+        android:icon="@drawable/ic_camera_black_24dp"
+        android:title="@string/text_nav_photo" />
+
+    <item
+        android:id="@+id/nav_edit"
+        android:icon="@drawable/ic_edit_black_24dp"
+        android:title="@string/text_nav_edit" />
+
+    <item
+        android:id="@+id/nav_share"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="@string/text_nav_share" />
+
+</menu>

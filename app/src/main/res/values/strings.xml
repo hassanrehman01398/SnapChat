@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Employee of the month</string>
+    <string name="text_nav_photo">Photo</string>
+    <string name="text_nav_edit">Edit</string>
+    <string name="text_nav_share">Share</string>
+</resources>
