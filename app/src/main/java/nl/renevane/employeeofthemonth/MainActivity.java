@@ -10,7 +10,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     // create fragment instances
-    private final PhotoFragment photoFragment = new PhotoFragment();
+    private final CameraFragment cameraFragment = new CameraFragment();
     private final EditFragment editFragment = new EditFragment();
     private final ShareFragment shareFragment = new ShareFragment();
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.nav_photo:
-                    selectedFragment = photoFragment;
+                    selectedFragment = cameraFragment;
                     break;
                 case R.id.nav_edit:
                     selectedFragment = editFragment;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         if (null == savedInstanceState) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, photoFragment)
+                    .replace(R.id.fragment_container, cameraFragment)
                     .commit();
         }
     }

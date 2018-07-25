@@ -4,16 +4,16 @@
     <item
         android:id="@+id/nav_photo"
         android:icon="@drawable/ic_camera_black_24dp"
-        android:title="@string/text_nav_photo" />
+        android:title="@string/nav_text_camera" />
 
     <item
         android:id="@+id/nav_edit"
         android:icon="@drawable/ic_edit_black_24dp"
-        android:title="@string/text_nav_edit" />
+        android:title="@string/nav_text_edit" />
 
     <item
         android:id="@+id/nav_share"
         android:icon="@drawable/ic_share_black_24dp"
-        android:title="@string/text_nav_share" />
+        android:title="@string/nav_text_share" />
 
 </menu>
