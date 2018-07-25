@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Employee of the month</string>
-    <string name="text_nav_photo">Photo</string>
-    <string name="text_nav_edit">Edit</string>
-    <string name="text_nav_share">Share</string>
+    <string name="nav_text_camera">Camera</string>
+    <string name="nav_text_edit">Edit</string>
+    <string name="nav_text_share">Share</string>
+    <string name="fragment_text_photo">Take a photo</string>
+    <string name="fragment_text_edit">Edit and save the displayed photo\u000d\u000a(or select another)</string>
+    <string name="fragment_text_share">Share the displayed picture\u000d\u000a(or select another)</string>
+    <string name="button_text_photo">Take photo</string>
+    <string name="button_text_select">Select</string>
+    <string name="button_text_save">Save</string>
+    <string name="button_text_share">Share</string>
+    <string name="request_permission">This app needs permission to use the camera.</string>
+    <string name="camera_error">The Android version on this device does not support the Camera2 API.</string>
+    <string name="toast_saved">The photo has been saved as:\u000d\u000a\u000d\u000a</string>
+    <string name="photo_filename_pattern">\'photo-\'yyyyMMdd-HHmmss\'.jpg\'</string>
+    <string name="edit_preview_description">Shows an edit preview</string>
+    <string name="share_preview_description">Shows a share preview</string>
 </resources>
