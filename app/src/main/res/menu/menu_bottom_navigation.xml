@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_photo"
-        android:icon="@drawable/ic_camera_black_24dp"
+        android:id="@+id/nav_camera"
+        android:icon="@drawable/icon_nav_camera_white_24dp"
         android:title="@string/nav_text_camera" />
 
     <item
         android:id="@+id/nav_edit"
-        android:icon="@drawable/ic_edit_black_24dp"
+        android:icon="@drawable/icon_nav_edit_white_24dp"
         android:title="@string/nav_text_edit" />
 
     <item
         android:id="@+id/nav_share"
-        android:icon="@drawable/ic_share_black_24dp"
+        android:icon="@drawable/icon_nav_share_white_24dp"
         android:title="@string/nav_text_share" />
 
 </menu>
