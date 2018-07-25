@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
 
             switch (item.getItemId()) {
-                case R.id.nav_photo:
+                case R.id.nav_camera:
                     selectedFragment = cameraFragment;
                     break;
                 case R.id.nav_edit:
