@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -273,16 +274,21 @@ public class CameraFragment extends Fragment
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_camera, container, false);
+        View view = inflater.inflate(R.layout.fragment_camera, container, false);
+
+        FloatingActionButton fabPhoto = view.findViewById(R.id.fab_photo);
+        fabPhoto.setOnClickListener(this);
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
-        view.findViewById(R.id.fab_photo).setOnClickListener(this);
+        // view.findViewById(R.id.fab_photo).setOnClickListener(this);
         mTextureView = view.findViewById(R.id.camera_preview);
     }
 
-    /* Does not need to be overridden anymore after commenting out line with 'mFile = ...'
+    /* Original code: no need to override after commenting out line with 'mFile = ...'
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
