@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -55,6 +54,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -233,7 +233,7 @@ public class CameraFragment extends Fragment
         public void onImageAvailable(ImageReader reader) {
             String fileName = new SimpleDateFormat(getString(R.string.photo_filename_pattern),
                     Locale.US).format(new Date());
-            mFile = new File(getActivity().getExternalFilesDir(null), fileName);
+            mFile = new File(Objects.requireNonNull(getActivity()).getExternalFilesDir(null), fileName);
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
 
@@ -259,7 +259,7 @@ public class CameraFragment extends Fragment
     /**
      * A {@link Semaphore} to prevent the app from exiting before closing the camera.
      */
-    private Semaphore mCameraOpenCloseLock = new Semaphore(1);
+    private final Semaphore mCameraOpenCloseLock = new Semaphore(1);
 
     /**
      * Whether the current camera device supports Flash or not.
@@ -272,22 +272,22 @@ public class CameraFragment extends Fragment
     private int mSensorOrientation;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_camera, container, false);
     }
 
     @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.fab_photo).setOnClickListener(this);
         mTextureView = view.findViewById(R.id.camera_preview);
     }
 
+    /* Does not need to be overridden anymore after commenting out line with 'mFile = ...'
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // the line below was in the original Camera2BasicFragment class
         // mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-    }
+    }*/
 
     @Override
     public void onResume() {
@@ -329,19 +329,14 @@ public class CameraFragment extends Fragment
     private void showToast(final String text) {
         final Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
-                }
-            });
+            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_LONG).show());
         }
     }
 
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
      */
-    private CameraCaptureSession.CaptureCallback mCaptureCallback
+    private final CameraCaptureSession.CaptureCallback mCaptureCallback
             = new CameraCaptureSession.CaptureCallback() {
 
         private void process(CaptureResult result) {
@@ -489,9 +484,9 @@ public class CameraFragment extends Fragment
     @SuppressWarnings("SuspiciousNameCombination")
     private void setUpCameraOutputs(int width, int height) {
         Activity activity = getActivity();
-        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
+        CameraManager manager = (CameraManager) Objects.requireNonNull(activity).getSystemService(Context.CAMERA_SERVICE);
         try {
-            for (String cameraId : manager.getCameraIdList()) {
+            for (String cameraId : Objects.requireNonNull(manager).getCameraIdList()) {
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
 
@@ -599,7 +594,7 @@ public class CameraFragment extends Fragment
      * Opens the camera specified by {@link CameraFragment#mCameraId}.
      */
     private void openCamera(int width, int height) {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
             return;
@@ -612,7 +607,7 @@ public class CameraFragment extends Fragment
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(mCameraId, mStateCallback, mBackgroundHandler);
+            Objects.requireNonNull(manager).openCamera(mCameraId, mStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -955,7 +950,7 @@ public class CameraFragment extends Fragment
 
         private static final String ARG_MESSAGE = "message";
 
-        public static ErrorDialog newInstance(String message) {
+        static ErrorDialog newInstance(String message) {
             ErrorDialog dialog = new ErrorDialog();
             Bundle args = new Bundle();
             args.putString(ARG_MESSAGE, message);
@@ -968,13 +963,8 @@ public class CameraFragment extends Fragment
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Activity activity = getActivity();
             return new AlertDialog.Builder(activity)
-                    .setMessage(getArguments().getString(ARG_MESSAGE))
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            activity.finish();
-                        }
-                    })
+                    .setMessage(Objects.requireNonNull(getArguments()).getString(ARG_MESSAGE))
+                    .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> Objects.requireNonNull(activity).finish())
                     .create();
         }
 
@@ -992,21 +982,13 @@ public class CameraFragment extends Fragment
             return new AlertDialog
                     .Builder(getActivity())
                     .setMessage(R.string.request_permission)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    REQUEST_CAMERA_PERMISSION);
-                        }
-                    })
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> Objects.requireNonNull(parent).requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            REQUEST_CAMERA_PERMISSION))
                     .setNegativeButton(android.R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Activity activity = parent.getActivity();
-                                    if (activity != null) {
-                                        activity.finish();
-                                    }
+                            (dialog, which) -> {
+                                Activity activity = Objects.requireNonNull(parent).getActivity();
+                                if (activity != null) {
+                                    activity.finish();
                                 }
                             })
                     .create();

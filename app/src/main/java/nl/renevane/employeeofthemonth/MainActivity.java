@@ -1,11 +1,9 @@
 package nl.renevane.employeeofthemonth;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,34 +14,30 @@ public class MainActivity extends AppCompatActivity {
 
     // react to clicks on the nav buttons
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            = item -> {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
 
-            Fragment selectedFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.nav_camera:
+                        selectedFragment = cameraFragment;
+                        break;
+                    case R.id.nav_edit:
+                        selectedFragment = editFragment;
+                        break;
+                    case R.id.nav_share:
+                        selectedFragment = shareFragment;
+                        break;
+                }
 
-            switch (item.getItemId()) {
-                case R.id.nav_camera:
-                    selectedFragment = cameraFragment;
-                    break;
-                case R.id.nav_edit:
-                    selectedFragment = editFragment;
-                    break;
-                case R.id.nav_share:
-                    selectedFragment = shareFragment;
-                    break;
-            }
+                // show the selected fragment
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, selectedFragment)
+                        .commit();
 
-            // show the selected fragment
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, selectedFragment)
-                    .commit();
-
-            return true; // returning 'true' visually highlights the clicked navigation item
-        }
-    };
+                return true; // returning 'true' visually highlights the clicked navigation item
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
