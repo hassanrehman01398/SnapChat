@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private CharSequence fullPathOfMostRecentlySavedPhoto;
+    private String fullPathOfMostRecentlySavedPhoto;
     private FragmentListener fragmentListener;
 
     /**
@@ -301,7 +301,7 @@ public class CameraFragment extends Fragment
         mTextureView = view.findViewById(R.id.camera_preview);
     }
 
-    /* Original code: no need to override after commenting out line with 'mFile = ...'
+    /* Became redundant after commenting out line with 'mFile = ...'
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -600,7 +600,12 @@ public class CameraFragment extends Fragment
 
                 // Check if the flash is supported.
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-                mFlashSupported = available == null ? false : available;
+
+                // On some devices (my Samsung Galaxy S6 for instance)
+                // the app freezes momentarily when flash is employed
+                // to prevent this, 'mFlashSupported'  will now be set to 'false'
+                // original line : mFlashSupported = available == null ? false : available;
+                mFlashSupported = false;
 
                 mCameraId = cameraId;
                 return;
@@ -900,8 +905,10 @@ public class CameraFragment extends Fragment
                     mBackgroundHandler);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
-            mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback,
-                    mBackgroundHandler);
+
+            mCaptureSession
+                    .setRepeatingRequest(mPreviewRequest, mCaptureCallback, mBackgroundHandler);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }

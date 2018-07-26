@@ -1,5 +1,6 @@
 package nl.renevane.employeeofthemonth;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,10 +9,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class EditFragment extends Fragment implements View.OnClickListener {
 
-    private CharSequence fullPathOfMostRecentlySavedPhoto;
+    private String fullPathOfMostRecentlySavedPhoto;
+
+    // called from MainActivity
+    public void updatePath(String path) {
+        fullPathOfMostRecentlySavedPhoto = path;
+    }
 
     @Nullable
     @Override
@@ -29,8 +36,9 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // TODO: display the image using fullPathOfMostRecentlySavedPhoto
-        CharSequence check = this.fullPathOfMostRecentlySavedPhoto;
+        // TODO: check orientation!
+        ImageView editPreview = view.findViewById(R.id.edit_preview);
+        editPreview.setImageBitmap(BitmapFactory.decodeFile(fullPathOfMostRecentlySavedPhoto));
     }
 
     @Override
@@ -43,11 +51,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 // TODO save the edited photo
                 break;
         }
-    }
-
-    // get data from MainActivity into this fragment
-    public void updatePath(CharSequence newPath) {
-        fullPathOfMostRecentlySavedPhoto = newPath;
     }
 
 }

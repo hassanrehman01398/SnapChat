@@ -2,6 +2,6 @@ package nl.renevane.employeeofthemonth;
 
 public interface FragmentListener {
 
-    void onPhotoSaved(CharSequence filePath);
+    void onPhotoSaved(String path);
 
 }
