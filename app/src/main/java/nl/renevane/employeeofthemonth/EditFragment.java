@@ -54,7 +54,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // TODO: check orientation!
         ImageView editPreview = view.findViewById(R.id.edit_preview);
         Glide.with(this)
                 .load(fullPathOfMostRecentlySavedPhoto)
@@ -85,7 +84,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private void dummyImageEditMethod() {
         // pass the location of the saved image to the main activity,
         // where an interface is implemented
-        fullPathOfMostRecentlySavedImage = /* TODO: needs to change. for testing purposes */fullPathOfMostRecentlySavedPhoto;
+        fullPathOfMostRecentlySavedImage = null;
         editFragmentListener.onEditedPictureSaved(fullPathOfMostRecentlySavedImage);
     }
 
