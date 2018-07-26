@@ -13,6 +13,9 @@ import android.widget.ImageView;
 
 public class EditFragment extends Fragment implements View.OnClickListener {
 
+    private EditFragmentListener editFragmentListener;
+    private String fullPathOfMostRecentlySavedImage;
+
     private String fullPathOfMostRecentlySavedPhoto;
 
     // called from MainActivity
@@ -51,6 +54,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 // TODO save the edited photo
                 break;
         }
+    }
+
+    // TODO: write code for editing and saving
+    void dummyImageEditMethod() {
+        // pass the location of the saved image to the Main Activity
+        fullPathOfMostRecentlySavedImage = null;
+        editFragmentListener.onEditedPictureSaved(fullPathOfMostRecentlySavedImage);
     }
 
 }
