@@ -1,6 +1,6 @@
 package nl.renevane.employeeofthemonth;
 
-interface CameraFragmentListener {
+public interface CameraFragmentListener {
 
     void onCameraPhotoSaved(String path);
 
