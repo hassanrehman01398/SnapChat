@@ -603,8 +603,8 @@ public class CameraFragment extends Fragment
 
                 // On some devices (my Samsung Galaxy S6 for instance)
                 // the app freezes momentarily when flash is employed
-                // to prevent this, 'mFlashSupported'  will now be set to 'false'
-                // original line : mFlashSupported = available == null ? false : available;
+                // to prevent this, 'mFlashSupported' is set to 'false', disabling the use of flash
+                // original code: mFlashSupported = available == null ? false : available;
                 mFlashSupported = false;
 
                 mCameraId = cameraId;
@@ -861,6 +861,8 @@ public class CameraFragment extends Fragment
                                                @NonNull TotalCaptureResult result) {
 
                     showToast(getString(R.string.toast_saved) + mFile);
+
+                    // pass the photo's file path to the Main Activity
                     fullPathOfMostRecentlySavedPhoto = mFile.toString();
                     fragmentListener.onPhotoSaved(fullPathOfMostRecentlySavedPhoto);
 
