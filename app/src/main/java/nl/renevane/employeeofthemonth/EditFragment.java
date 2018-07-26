@@ -1,6 +1,6 @@
 package nl.renevane.employeeofthemonth;
 
-import android.graphics.BitmapFactory;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 public class EditFragment extends Fragment implements View.OnClickListener {
 
@@ -21,6 +23,19 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     // called from MainActivity
     public void updatePath(String path) {
         fullPathOfMostRecentlySavedPhoto = path;
+    }
+
+    // assign the fragment listener to the activity
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // the activity needs to implement the interface for this to work
+        if (context instanceof EditFragmentListener) {
+            editFragmentListener = (EditFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement EditFragmentListener!");
+        }
     }
 
     @Nullable
@@ -41,7 +56,16 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // TODO: check orientation!
         ImageView editPreview = view.findViewById(R.id.edit_preview);
-        editPreview.setImageBitmap(BitmapFactory.decodeFile(fullPathOfMostRecentlySavedPhoto));
+        Glide.with(this)
+                .load(fullPathOfMostRecentlySavedPhoto)
+                .into(editPreview);
+    }
+
+    // remove the reference to the activity when the fragment is removed from the activity
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        editFragmentListener = null;
     }
 
     @Override
@@ -52,14 +76,16 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fab_save:
                 // TODO save the edited photo
+                dummyImageEditMethod();
                 break;
         }
     }
 
     // TODO: write code for editing and saving
-    void dummyImageEditMethod() {
-        // pass the location of the saved image to the Main Activity
-        fullPathOfMostRecentlySavedImage = null;
+    private void dummyImageEditMethod() {
+        // pass the location of the saved image to the main activity,
+        // where an interface is implemented
+        fullPathOfMostRecentlySavedImage = /* TODO: needs to change. for testing purposes */fullPathOfMostRecentlySavedPhoto;
         editFragmentListener.onEditedPictureSaved(fullPathOfMostRecentlySavedImage);
     }
 
