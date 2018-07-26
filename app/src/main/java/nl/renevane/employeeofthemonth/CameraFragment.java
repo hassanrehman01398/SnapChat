@@ -235,8 +235,8 @@ public class CameraFragment extends Fragment
         // Now is the right time to assign a file name to the photo being saved
         @Override
         public void onImageAvailable(ImageReader reader) {
-            String fileName = new SimpleDateFormat(getString(R.string.photo_filename_pattern),
-                    Locale.US).format(new Date());
+            String fileName = new SimpleDateFormat(getString(R.string.photo_filename_pattern), Locale.US)
+                    .format(new Date());
             mFile = new File(Objects.requireNonNull(getActivity()).getExternalFilesDir(null), fileName);
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
