@@ -62,8 +62,8 @@ import java.util.concurrent.TimeUnit;
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private String fullPathOfMostRecentlySavedPhoto;
     private FragmentListener fragmentListener;
+    private String fullPathOfMostRecentlySavedPhoto;
 
     /**
      * Conversion from screen rotation to JPEG orientation.
@@ -297,16 +297,8 @@ public class CameraFragment extends Fragment
 
     @Override
     public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
-        // view.findViewById(R.id.fab_photo).setOnClickListener(this);
         mTextureView = view.findViewById(R.id.camera_preview);
     }
-
-    /* Became redundant after commenting out line with 'mFile = ...'
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-    }*/
 
     @Override
     public void onResume() {
@@ -598,13 +590,14 @@ public class CameraFragment extends Fragment
                             mPreviewSize.getHeight(), mPreviewSize.getWidth());
                 }
 
-                // Check if the flash is supported.
-                Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-
-                // On some devices (my Samsung Galaxy S6 for instance)
+                // On some devices (Samsung Galaxy S6 for instance)
                 // the app freezes momentarily when flash is employed
-                // to prevent this, 'mFlashSupported' is set to 'false', disabling the use of flash
-                // original code: mFlashSupported = available == null ? false : available;
+                // to prevent this, 'mFlashSupported' is set to 'false',
+                // effectively disabling the use of flash
+
+                // Check if the flash is supported.
+                // Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+                // mFlashSupported = available == null ? false : available;
                 mFlashSupported = false;
 
                 mCameraId = cameraId;
