@@ -5,7 +5,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements CameraFragmentListener, EditFragmentListener {
+public class MainActivity extends AppCompatActivity
+        implements CameraFragmentListener, EditFragmentListener {
 
     // create fragment instances
     private final CameraFragment cameraFragment = new CameraFragment();
@@ -47,27 +48,29 @@ public class MainActivity extends AppCompatActivity implements CameraFragmentLis
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         // on first run, there is not yet a fragment selected so no fragment would be shown
-        // to prevent this, show the camera fragment
-        // savedInstanceState
+        // to prevent this, show the camera fragment as soon as the app is started
+        // savedInstanceState will be null on first run
         if (savedInstanceState == null) {
             showFragment(cameraFragment);
         }
     }
 
+    // when a new photo is saved from the camera fragment, send its path to the edit fragment
     @Override
     public void onCameraPhotoSaved(String path) {
         editFragment.updatePath(path);
     }
 
+    // when a picture is saved from the edit fragment, send its path to the share fragment
     @Override
     public void onEditedPictureSaved(String path) {
         shareFragment.updatePath(path);
     }
 
-    private void showFragment(Fragment selectedFragment) {
+    private void showFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, selectedFragment)
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
