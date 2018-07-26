@@ -1,6 +1,6 @@
 package nl.renevane.employeeofthemonth;
 
-interface EditFragmentListener {
+public interface EditFragmentListener {
 
     void onEditedPictureSaved(String path);
 
