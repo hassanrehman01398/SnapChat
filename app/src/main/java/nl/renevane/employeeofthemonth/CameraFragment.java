@@ -275,13 +275,16 @@ public class CameraFragment extends Fragment
      */
     private int mSensorOrientation;
 
+    // assign the fragment listener to the activity
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        // the activity needs to implement the interface for this to work
         if (context instanceof CameraFragmentListener) {
             cameraFragmentListener = (CameraFragmentListener) context;
         } else {
-            throw new RuntimeException(context.toString() + "must implement CameraFragmentListener!");
+            throw new RuntimeException(context.toString()
+                    + " must implement CameraFragmentListener!");
         }
     }
 
@@ -323,6 +326,7 @@ public class CameraFragment extends Fragment
         super.onPause();
     }
 
+    // remove the reference to the activity when the fragment is removed from the activity
     @Override
     public void onDetach() {
         super.onDetach();
@@ -855,7 +859,8 @@ public class CameraFragment extends Fragment
 
                     showToast(getString(R.string.toast_saved) + mFile);
 
-                    // pass the location of the saved photo to the Main Activity
+                    // pass the location of the saved photo to the main activity,
+                    // where an interface is implemented
                     fullPathOfMostRecentlySavedPhoto = mFile.toString();
                     cameraFragmentListener.onCameraPhotoSaved(fullPathOfMostRecentlySavedPhoto);
 
