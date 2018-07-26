@@ -857,7 +857,7 @@ public class CameraFragment extends Fragment
 
                     // pass the photo's file path to the Main Activity
                     fullPathOfMostRecentlySavedPhoto = mFile.toString();
-                    fragmentListener.onPhotoSaved(fullPathOfMostRecentlySavedPhoto);
+                    fragmentListener.onFileSaved(fullPathOfMostRecentlySavedPhoto);
 
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
