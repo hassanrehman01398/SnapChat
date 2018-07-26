@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     }
 
     @Override
-    public void onPhotoSaved(String filePath) {
+    public void onFileSaved(String filePath) {
         editFragment.updatePath(filePath);
     }
 
