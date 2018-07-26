@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 public class EditFragment extends Fragment implements View.OnClickListener {
 
+    private CharSequence fullPathOfMostRecentlySavedPhoto;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,6 +28,12 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        // TODO: display the image using fullPathOfMostRecentlySavedPhoto
+        CharSequence check = this.fullPathOfMostRecentlySavedPhoto;
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_select:
@@ -35,6 +43,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 // TODO save the edited photo
                 break;
         }
+    }
+
+    // get data from MainActivity into this fragment
+    public void updatePath(CharSequence newPath) {
+        fullPathOfMostRecentlySavedPhoto = newPath;
     }
 
 }

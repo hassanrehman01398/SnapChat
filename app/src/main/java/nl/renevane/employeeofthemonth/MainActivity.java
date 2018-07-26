@@ -5,7 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentListener {
 
     // create fragment instances
     private final CameraFragment cameraFragment = new CameraFragment();
@@ -16,28 +16,28 @@ public class MainActivity extends AppCompatActivity {
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener
             = item -> {
 
-                Fragment selectedFragment = null;
+        Fragment selectedFragment = null;
 
-                switch (item.getItemId()) {
-                    case R.id.nav_camera:
-                        selectedFragment = cameraFragment;
-                        break;
-                    case R.id.nav_edit:
-                        selectedFragment = editFragment;
-                        break;
-                    case R.id.nav_share:
-                        selectedFragment = shareFragment;
-                        break;
-                }
+        switch (item.getItemId()) {
+            case R.id.nav_camera:
+                selectedFragment = cameraFragment;
+                break;
+            case R.id.nav_edit:
+                selectedFragment = editFragment;
+                break;
+            case R.id.nav_share:
+                selectedFragment = shareFragment;
+                break;
+        }
 
-                // show the selected fragment
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment)
-                        .commit();
+        // show the selected fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, selectedFragment)
+                .commit();
 
-                return true; // returning 'true' visually highlights the clicked navigation item
-            };
+        return true; // returning 'true' will highlight the clicked navigation item
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.fragment_container, cameraFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onPhotoSaved(CharSequence filePath) {
+        editFragment.updatePath(filePath);
     }
 
 }

@@ -62,6 +62,9 @@ import java.util.concurrent.TimeUnit;
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
+    private CharSequence fullPathOfMostRecentlySavedPhoto;
+    private FragmentListener fragmentListener;
+
     /**
      * Conversion from screen rotation to JPEG orientation.
      */
@@ -273,6 +276,16 @@ public class CameraFragment extends Fragment
     private int mSensorOrientation;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentListener) {
+            fragmentListener = (FragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + "must implement FragmentListener!");
+        }
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
 
@@ -316,6 +329,12 @@ public class CameraFragment extends Fragment
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentListener = null;
     }
 
     @Override
@@ -835,7 +854,11 @@ public class CameraFragment extends Fragment
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
+
                     showToast(getString(R.string.toast_saved) + mFile);
+                    fullPathOfMostRecentlySavedPhoto = mFile.toString();
+                    fragmentListener.onPhotoSaved(fullPathOfMostRecentlySavedPhoto);
+
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
                 }
