@@ -1,5 +1,6 @@
 package nl.renevane.employeeofthemonth;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,8 +9,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class ShareFragment extends Fragment implements View.OnClickListener {
+
+    private String fullPathOfMostRecentlySavedImage;
+
+    // called from MainActivity
+    public void updatePath(String path) {
+        fullPathOfMostRecentlySavedImage = path;
+    }
 
     @Nullable
     @Override
@@ -23,6 +32,13 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         fabShare.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        // TODO: check orientation!
+        ImageView sharePreview = view.findViewById(R.id.share_preview);
+        sharePreview.setImageBitmap(BitmapFactory.decodeFile(fullPathOfMostRecentlySavedImage));
     }
 
     @Override

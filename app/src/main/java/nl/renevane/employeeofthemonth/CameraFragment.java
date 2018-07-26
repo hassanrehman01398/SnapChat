@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private FragmentListener fragmentListener;
+    private CameraFragmentListener cameraFragmentListener;
     private String fullPathOfMostRecentlySavedPhoto;
 
     /**
@@ -278,10 +278,10 @@ public class CameraFragment extends Fragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentListener) {
-            fragmentListener = (FragmentListener) context;
+        if (context instanceof CameraFragmentListener) {
+            cameraFragmentListener = (CameraFragmentListener) context;
         } else {
-            throw new RuntimeException(context.toString() + "must implement FragmentListener!");
+            throw new RuntimeException(context.toString() + "must implement CameraFragmentListener!");
         }
     }
 
@@ -326,7 +326,7 @@ public class CameraFragment extends Fragment
     @Override
     public void onDetach() {
         super.onDetach();
-        fragmentListener = null;
+        cameraFragmentListener = null;
     }
 
     @Override
@@ -855,9 +855,9 @@ public class CameraFragment extends Fragment
 
                     showToast(getString(R.string.toast_saved) + mFile);
 
-                    // pass the photo's file path to the Main Activity
+                    // pass the location of the saved photo to the Main Activity
                     fullPathOfMostRecentlySavedPhoto = mFile.toString();
-                    fragmentListener.onFileSaved(fullPathOfMostRecentlySavedPhoto);
+                    cameraFragmentListener.onCameraPhotoSaved(fullPathOfMostRecentlySavedPhoto);
 
                     Log.d(TAG, mFile.toString());
                     unlockFocus();

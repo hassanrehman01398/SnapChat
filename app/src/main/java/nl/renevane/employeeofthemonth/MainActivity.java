@@ -5,7 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements FragmentListener {
+public class MainActivity extends AppCompatActivity implements CameraFragmentListener, EditFragmentListener {
 
     // create fragment instances
     private final CameraFragment cameraFragment = new CameraFragment();
@@ -31,10 +31,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         }
 
         // show the selected fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, selectedFragment)
-                .commit();
+        showFragment(selectedFragment);
 
         return true; // returning 'true' will highlight the clicked navigation item
     };
@@ -49,18 +46,29 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // on first run, show the Photo fragment
-        if (null == savedInstanceState) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, cameraFragment)
-                    .commit();
+        // on first run, there is not yet a fragment selected so no fragment would be shown
+        // to prevent this, show the camera fragment
+        // savedInstanceState
+        if (savedInstanceState == null) {
+            showFragment(cameraFragment);
         }
     }
 
     @Override
-    public void onFileSaved(String filePath) {
-        editFragment.updatePath(filePath);
+    public void onCameraPhotoSaved(String path) {
+        editFragment.updatePath(path);
+    }
+
+    @Override
+    public void onEditedPictureSaved(String path) {
+        shareFragment.updatePath(path);
+    }
+
+    private void showFragment(Fragment selectedFragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, selectedFragment)
+                .commit();
     }
 
 }
