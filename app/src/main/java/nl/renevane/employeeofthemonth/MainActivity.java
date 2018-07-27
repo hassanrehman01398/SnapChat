@@ -42,22 +42,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-         * set a reference to the bottom navigation view
-         * and pass the nav listener to it
-         *
-         */
-
+        // set a reference to the bottom navigation view and pass the nav listener to it
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        /*
-         * on first run, a fragment is not yet selected and thus no fragment would be shown
-         * to prevent this, the camera fragment will be explicitly shown
-         * if 'savedInstanceState' is null, which is the case when the app is first run
-         *
-         */
-
+        // show the camera fragment when the app is started
         if (savedInstanceState == null) {
             showFragment(cameraFragment);
         }
