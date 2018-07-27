@@ -13,6 +13,25 @@ public class MainActivity extends AppCompatActivity
     private final EditFragment editFragment = new EditFragment();
     private final ShareFragment shareFragment = new ShareFragment();
 
+    // when a new photo is saved from the camera fragment, send its path to the edit fragment
+    @Override
+    public void onCameraPhotoSaved(String path) {
+        editFragment.updatePath(path);
+    }
+
+    // when a picture is saved from the edit fragment, send its path to the share fragment
+    @Override
+    public void onEditedPictureSaved(String path) {
+        shareFragment.updatePath(path);
+    }
+
+    private void showFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
     // react to clicks on the nav buttons
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener
             = item -> {
@@ -50,25 +69,6 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             showFragment(cameraFragment);
         }
-    }
-
-    // when a new photo is saved from the camera fragment, send its path to the edit fragment
-    @Override
-    public void onCameraPhotoSaved(String path) {
-        editFragment.updatePath(path);
-    }
-
-    // when a picture is saved from the edit fragment, send its path to the share fragment
-    @Override
-    public void onEditedPictureSaved(String path) {
-        shareFragment.updatePath(path);
-    }
-
-    private void showFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
     }
 
 }
