@@ -14,11 +14,11 @@ import com.bumptech.glide.Glide;
 
 public class ShareFragment extends Fragment implements View.OnClickListener {
 
-    private String fullPathOfMostRecentlySavedImage;
+    private String absolutePathOfSelectedImage;
 
-    // called from MainActivity
+    // also called by EditFragment through MainActivity
     public void updatePath(String path) {
-        fullPathOfMostRecentlySavedImage = path;
+        absolutePathOfSelectedImage = path;
     }
 
     @Nullable
@@ -40,7 +40,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         // TODO: check orientation!
         ImageView sharePreview = view.findViewById(R.id.share_preview);
         Glide.with(this)
-                .load(fullPathOfMostRecentlySavedImage)
+                .load(absolutePathOfSelectedImage)
                 .into(sharePreview);
     }
 
