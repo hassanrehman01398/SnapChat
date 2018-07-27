@@ -63,7 +63,6 @@ public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private CameraFragmentListener cameraFragmentListener;
-    private String fullPathOfMostRecentlySavedPhoto;
 
     /**
      * Conversion from screen rotation to JPEG orientation.
@@ -235,9 +234,13 @@ public class CameraFragment extends Fragment
         // Now is the right time to assign a file name to the photo being saved
         @Override
         public void onImageAvailable(ImageReader reader) {
-            String fileName = new SimpleDateFormat(getString(R.string.photo_filename_pattern), Locale.US)
+            String fileName
+                    = new SimpleDateFormat(getString(R.string.photo_filename_pattern), Locale.US)
                     .format(new Date());
-            mFile = new File(Objects.requireNonNull(getActivity()).getExternalFilesDir(null), fileName);
+            mFile = new File(Objects
+                    .requireNonNull(getActivity())
+                    .getExternalFilesDir(null), fileName);
+
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
 
@@ -857,14 +860,14 @@ public class CameraFragment extends Fragment
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
 
-                    showToast(getString(R.string.toast_saved) + mFile);
+                    String absolutePathOfSavedPhoto;
 
-                    // pass the location of the saved photo to the main activity,
-                    // where an interface is implemented
-                    fullPathOfMostRecentlySavedPhoto = mFile.toString();
-                    cameraFragmentListener.onCameraPhotoSaved(fullPathOfMostRecentlySavedPhoto);
+                    // pass the location of the saved photo
+                    absolutePathOfSavedPhoto = mFile.toString();
+                    cameraFragmentListener.onCameraPhotoSaved(absolutePathOfSavedPhoto);
 
-                    Log.d(TAG, mFile.toString());
+                    showToast(getString(R.string.toast_saved) + absolutePathOfSavedPhoto);
+                    Log.d(TAG, absolutePathOfSavedPhoto);
                     unlockFocus();
                 }
             };

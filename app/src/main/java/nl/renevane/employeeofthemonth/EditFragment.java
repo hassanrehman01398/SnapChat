@@ -16,13 +16,12 @@ import com.bumptech.glide.Glide;
 public class EditFragment extends Fragment implements View.OnClickListener {
 
     private EditFragmentListener editFragmentListener;
-    private String fullPathOfMostRecentlySavedImage;
+    private String absolutePathOfCurrentImage;
+    private String absolutePathOfAppStorageFolderWithTrailingSlash;
 
-    private String fullPathOfMostRecentlySavedPhoto;
-
-    // called from MainActivity
+    // also called by CameraFragment through MainActivity
     public void updatePath(String path) {
-        fullPathOfMostRecentlySavedPhoto = path;
+        absolutePathOfCurrentImage = path;
     }
 
     // assign the fragment listener to the activity
@@ -55,9 +54,24 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView editPreview = view.findViewById(R.id.edit_preview);
+
+        /*
+         * Glide makes image handling easier and more robust
+         * Google also recommends it!
+         *
+         * More info:
+         *
+         * https://bumptech.github.io/glide/
+         * https://developer.android.com/topic/performance/graphics/
+         */
+
+        // for debugging only
+        updatePath(absolutePathOfAppStorageFolderWithTrailingSlash + "photo-20180727-112003.jpg");
+
         Glide.with(this)
-                .load(fullPathOfMostRecentlySavedPhoto)
+                .load(absolutePathOfCurrentImage)
                 .into(editPreview);
+
     }
 
     // remove the reference to the activity when the fragment is removed from the activity
@@ -71,21 +85,26 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_select:
-                // TODO choose a photo
+                // TODO: cycle through a list of saved photos
+                updatePath(null);
                 break;
             case R.id.fab_save:
-                // TODO save the edited photo
-                dummyImageEditMethod();
+                // TODO: save the edited picture
+                saveEditedPicture();
                 break;
         }
     }
 
     // TODO: write code for editing and saving
-    private void dummyImageEditMethod() {
-        // pass the location of the saved image to the main activity,
-        // where an interface is implemented
-        fullPathOfMostRecentlySavedImage = null;
-        editFragmentListener.onEditedPictureSaved(fullPathOfMostRecentlySavedImage);
+    private void saveEditedPicture() {
+        // pass the location of the edited picture
+        editFragmentListener.onEditedPictureSaved(absolutePathOfCurrentImage);
+    }
+
+    private void refreshView() {
+        getChildFragmentManager()
+                .beginTransaction()
+                .commit();
     }
 
 }
