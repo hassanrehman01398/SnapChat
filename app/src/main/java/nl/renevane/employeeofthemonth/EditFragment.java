@@ -88,9 +88,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    // using Glide makes image handling so much easier!
-    // https://bumptech.github.io/glide/
-    // https://developer.android.com/topic/performance/graphics/
+    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
+    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView editPreview = view.findViewById(R.id.edit_preview);
@@ -115,8 +114,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fab_save:
                 // TODO: save the picture.
-                // saveEditedPicture();
-                refreshView();
+                saveEditedPicture();
                 break;
         }
     }
@@ -145,6 +143,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     // TODO: save and pass the location of the edited picture
     private void saveEditedPicture() {
+        // TODO: save the current edit
+        // 'currentPhoto' only used for debugging now, nothing actually saved
         editFragmentListener.onEditedPictureSaved(currentPhoto);
     }
 
