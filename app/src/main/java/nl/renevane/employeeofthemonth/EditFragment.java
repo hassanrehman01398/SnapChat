@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,7 +94,10 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView editPreview = view.findViewById(R.id.edit_preview);
-        Glide.with(this).load(currentPhoto).into(editPreview);
+        // Glide.with(this).load(currentPhoto).into(editPreview);
+        GlideApp.with(this)
+                .load(currentPhoto)
+                .into(editPreview);
     }
 
     // remove the listener when the fragment is removed from the activity
