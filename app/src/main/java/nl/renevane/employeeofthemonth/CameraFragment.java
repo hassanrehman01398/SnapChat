@@ -353,7 +353,7 @@ public class CameraFragment extends Fragment
     private void showToast(final String text) {
         final Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_LONG).show());
+            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_SHORT).show());
         }
     }
 
