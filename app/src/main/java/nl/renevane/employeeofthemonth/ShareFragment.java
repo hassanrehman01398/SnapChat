@@ -45,10 +45,10 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_select:
-                // TODO select an edited photo
+                // TODO select an edited picture
                 break;
             case R.id.fab_share:
-                // TODO share the edited photo
+                // TODO share the edited picture
                 break;
         }
     }

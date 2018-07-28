@@ -17,33 +17,39 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EditFragment extends Fragment implements View.OnClickListener {
 
     private EditFragmentListener editFragmentListener;
-    private String currentImage;
+    private String currentPhoto;
     private final List<String> cameraRoll = new ArrayList<>();
     private int cameraRollIndex;
     private int cameraRollIndexMaxValue;
 
     // called by CameraFragment through MainActivity
     public void addToCameraRoll(String path) {
-        currentImage = path;
+        currentPhoto = path;
         cameraRoll.add(path);
         cameraRollIndexMaxValue = cameraRoll.size() - 1;
         cameraRollIndex = cameraRollIndexMaxValue; // point to last added photo
     }
 
-    // load the camera roll with saved photos
-    public void loadCameraRoll() {
-        String storageFolder = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getExternalFilesDir(null)).toString();
-
+    // called from MainActivity
+    public void loadPhotos(String storageFolder, String pattern) {
         File folder = new File(storageFolder);
 
-        File[] files = folder.listFiles((file, fileName) -> fileName
-                .matches(getString(R.string.photo_filename_regex)));
+        /*
+        File[] files = folder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String s) {
+                return s.matches(pattern);
+            }
+        });*/
 
+        // this is Java 8's more elegant lambda expression equivalent of the code above
+        File[] files = folder.listFiles((file, s) -> s.matches(pattern));
+
+        // call addToCameraRoll for each file that matches the filter pattern
         for (File f : files) {
             try {
                 addToCameraRoll(f.getCanonicalPath());
@@ -84,22 +90,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    // using Glide makes image handling so much easier!
+    // https://bumptech.github.io/glide/
+    // https://developer.android.com/topic/performance/graphics/
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView editPreview = view.findViewById(R.id.edit_preview);
-
-        /*
-         * Glide makes image handling easier and more robust
-         * Google also recommends it
-         *
-         * More info:
-         *
-         * https://bumptech.github.io/glide/
-         * https://developer.android.com/topic/performance/graphics/
-         */
-
-        Glide.with(this).load(currentImage).into(editPreview);
-
+        Glide.with(this).load(currentPhoto).into(editPreview);
     }
 
     // remove the listener when the fragment is removed from the activity
@@ -114,28 +111,27 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.fab_select:
                 // TODO: cycle through a list of saved photos
-                getNextPhoto();
-                refreshView();
+                showNextPhoto();
                 break;
             case R.id.fab_save:
-                // TODO: should save the edited picture.
-                // During debugging the button is used to call loadCameraRoll
-                //saveEditedPicture();
-                loadCameraRoll();
+                // TODO: save the picture.
+                // saveEditedPicture();
                 refreshView();
                 break;
         }
     }
 
-    // make the camera roll behave like a circular linked list
-
-    private void getNextPhoto() {
-        if (cameraRollIndex == cameraRollIndexMaxValue) {
-            cameraRollIndex = 0;
-        } else cameraRollIndex++;
-        currentImage = cameraRoll.get(cameraRollIndex);
+    private void showNextPhoto() {
+        if (!cameraRoll.isEmpty()) {
+            if (cameraRollIndex == cameraRollIndexMaxValue) {
+                cameraRollIndex = 0;
+            } else cameraRollIndex++;
+            currentPhoto = cameraRoll.get(cameraRollIndex);
+            refreshView();
+        }
     }
 
+    // reload the fragment instance which effectively refreshes the view
     private void refreshView() {
         if (getFragmentManager() != null) {
             getFragmentManager()
@@ -149,7 +145,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     // TODO: save and pass the location of the edited picture
     private void saveEditedPicture() {
-        editFragmentListener.onEditedPictureSaved(currentImage);
+        editFragmentListener.onEditedPictureSaved(currentPhoto);
     }
 
 }
