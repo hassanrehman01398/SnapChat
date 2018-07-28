@@ -14,11 +14,11 @@ import com.bumptech.glide.Glide;
 
 public class ShareFragment extends Fragment implements View.OnClickListener {
 
-    private String absolutePathOfSelectedImage;
+    private String currentImage;
 
     // also called by EditFragment through MainActivity
-    public void updatePath(String path) {
-        absolutePathOfSelectedImage = path;
+    public void addToEditedPicturesList(String path) {
+        currentImage = path;
     }
 
     @Nullable
@@ -37,11 +37,8 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // TODO: check orientation!
         ImageView sharePreview = view.findViewById(R.id.share_preview);
-        Glide.with(this)
-                .load(absolutePathOfSelectedImage)
-                .into(sharePreview);
+        Glide.with(this).load(currentImage).into(sharePreview);
     }
 
     @Override

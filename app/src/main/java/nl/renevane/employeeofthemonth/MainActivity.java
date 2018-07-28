@@ -16,13 +16,13 @@ public class MainActivity extends AppCompatActivity
     // when a new photo is saved from the camera fragment, send its path to the edit fragment
     @Override
     public void onCameraPhotoSaved(String path) {
-        editFragment.updatePath(path);
+        editFragment.addToCameraRoll(path);
     }
 
     // when a picture is saved from the edit fragment, send its path to the share fragment
     @Override
     public void onEditedPictureSaved(String path) {
-        shareFragment.updatePath(path);
+        shareFragment.addToEditedPicturesList(path);
     }
 
     private void showFragment(Fragment fragment) {
@@ -65,10 +65,14 @@ public class MainActivity extends AppCompatActivity
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // show the camera fragment when the app is started
+        // highlight the camera button (not strictly necessary, but more elegant)
+        bottomNav.setSelectedItemId(R.id.nav_camera);
+
+        // show the camera fragment when the app is first started
         if (savedInstanceState == null) {
             showFragment(cameraFragment);
+            // TODO: nullpointer error. make it work!
+            // editFragment.loadCameraRoll();
         }
     }
-
 }
