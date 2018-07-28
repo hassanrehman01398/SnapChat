@@ -860,14 +860,14 @@ public class CameraFragment extends Fragment
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
 
-                    String absolutePathOfSavedPhoto;
+                    String savedPhotoPath;
 
-                    // pass the location of the saved photo
-                    absolutePathOfSavedPhoto = mFile.toString();
-                    cameraFragmentListener.onCameraPhotoSaved(absolutePathOfSavedPhoto);
+                    // pass the path of the saved photo to the activity
+                    savedPhotoPath = mFile.toString();
+                    cameraFragmentListener.onCameraPhotoSaved(savedPhotoPath);
 
-                    showToast(getString(R.string.toast_saved) + absolutePathOfSavedPhoto);
-                    Log.d(TAG, absolutePathOfSavedPhoto);
+                    showToast(getString(R.string.toast_saved) + savedPhotoPath);
+                    Log.d(TAG, savedPhotoPath);
                     unlockFocus();
                 }
             };

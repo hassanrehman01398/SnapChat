@@ -11,6 +11,7 @@
     <string name="camera_error">The Android version on this device does not support the Camera2 API.</string>
     <string name="toast_saved">The photo has been saved as:\u000d\u000a\u000d\u000a</string>
     <string name="photo_filename_pattern">\'photo-\'yyyyMMdd-HHmmss\'.jpg\'</string>
+    <string name="photo_filename_regex">photo-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d.jpg</string>
     <string name="edit_preview_description">Shows an edit preview</string>
     <string name="share_preview_description">Shows a share preview</string>
 </resources>

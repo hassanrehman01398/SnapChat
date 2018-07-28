@@ -13,15 +13,45 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class EditFragment extends Fragment implements View.OnClickListener {
 
     private EditFragmentListener editFragmentListener;
-    private String absolutePathOfCurrentImage;
-    private String absolutePathOfAppStorageFolderWithTrailingSlash;
+    private String currentImage;
+    private final List<String> cameraRoll = new ArrayList<>();
+    private int cameraRollIndex;
+    private int cameraRollIndexMaxValue;
 
-    // also called by CameraFragment through MainActivity
-    public void updatePath(String path) {
-        absolutePathOfCurrentImage = path;
+    // called by CameraFragment through MainActivity
+    public void addToCameraRoll(String path) {
+        currentImage = path;
+        cameraRoll.add(path);
+        cameraRollIndexMaxValue = cameraRoll.size() - 1;
+        cameraRollIndex = cameraRollIndexMaxValue; // point to last added photo
+    }
+
+    // load the camera roll with saved photos
+    public void loadCameraRoll() {
+        String storageFolder = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getExternalFilesDir(null)).toString();
+
+        File folder = new File(storageFolder);
+
+        File[] files = folder.listFiles((file, fileName) -> fileName
+                .matches(getString(R.string.photo_filename_regex)));
+
+        for (File f : files) {
+            try {
+                addToCameraRoll(f.getCanonicalPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     // assign the fragment listener to the activity
@@ -39,7 +69,10 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
         FloatingActionButton fabSelect = view.findViewById(R.id.fab_select);
@@ -57,7 +90,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
         /*
          * Glide makes image handling easier and more robust
-         * Google also recommends it!
+         * Google also recommends it
          *
          * More info:
          *
@@ -65,16 +98,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
          * https://developer.android.com/topic/performance/graphics/
          */
 
-        // for debugging only
-        updatePath(absolutePathOfAppStorageFolderWithTrailingSlash + "photo-20180727-112003.jpg");
-
-        Glide.with(this)
-                .load(absolutePathOfCurrentImage)
-                .into(editPreview);
+        Glide.with(this).load(currentImage).into(editPreview);
 
     }
 
-    // remove the reference to the activity when the fragment is removed from the activity
+    // remove the listener when the fragment is removed from the activity
     @Override
     public void onDetach() {
         super.onDetach();
@@ -86,25 +114,42 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.fab_select:
                 // TODO: cycle through a list of saved photos
-                updatePath(null);
+                getNextPhoto();
+                refreshView();
                 break;
             case R.id.fab_save:
-                // TODO: save the edited picture
-                saveEditedPicture();
+                // TODO: should save the edited picture.
+                // During debugging the button is used to call loadCameraRoll
+                //saveEditedPicture();
+                loadCameraRoll();
+                refreshView();
                 break;
         }
     }
 
-    // TODO: write code for editing and saving
-    private void saveEditedPicture() {
-        // pass the location of the edited picture
-        editFragmentListener.onEditedPictureSaved(absolutePathOfCurrentImage);
+    // make the camera roll behave like a circular linked list
+
+    private void getNextPhoto() {
+        if (cameraRollIndex == cameraRollIndexMaxValue) {
+            cameraRollIndex = 0;
+        } else cameraRollIndex++;
+        currentImage = cameraRoll.get(cameraRollIndex);
     }
 
     private void refreshView() {
-        getChildFragmentManager()
-                .beginTransaction()
-                .commit();
+        if (getFragmentManager() != null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .detach(this)
+                    .attach(this)
+                    .commit();
+        }
+
+    }
+
+    // TODO: save and pass the location of the edited picture
+    private void saveEditedPicture() {
+        editFragmentListener.onEditedPictureSaved(currentImage);
     }
 
 }
