@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
 public class ShareFragment extends Fragment implements View.OnClickListener {
 
     private String currentImage;
@@ -38,7 +36,9 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView sharePreview = view.findViewById(R.id.share_preview);
-        Glide.with(this).load(currentImage).into(sharePreview);
+        GlideApp.with(this)
+                .load(currentImage)
+                .into(sharePreview);
     }
 
     @Override

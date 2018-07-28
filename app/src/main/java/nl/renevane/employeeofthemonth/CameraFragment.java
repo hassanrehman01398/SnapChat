@@ -237,9 +237,7 @@ public class CameraFragment extends Fragment
             String fileName
                     = new SimpleDateFormat(getString(R.string.photo_filename_pattern), Locale.US)
                     .format(new Date());
-            mFile = new File(Objects
-                    .requireNonNull(getActivity())
-                    .getExternalFilesDir(null), fileName);
+            mFile = new File(getActivity().getExternalFilesDir(null), fileName);
 
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
