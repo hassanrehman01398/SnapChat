@@ -5,6 +5,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity
         implements CameraFragmentListener, EditFragmentListener {
 
@@ -68,11 +70,21 @@ public class MainActivity extends AppCompatActivity
         // highlight the camera button (not strictly necessary, but more elegant)
         bottomNav.setSelectedItemId(R.id.nav_camera);
 
-        // show the camera fragment when the app is first started
+        // when the app is first started, show the camera fragment and load all photos and pictures
         if (savedInstanceState == null) {
             showFragment(cameraFragment);
-            // TODO: nullpointer error. make it work!
-            // editFragment.loadCameraRoll();
+
+            // pass storageFolder and filename patterns from here inside the main activity
+            // to avoid a nullPointerExceptions and unavailable string resources
+            String storageFolder = Objects
+                    .requireNonNull(getExternalFilesDir(null)).toString();
+
+            String photoFilterPattern = getString(R.string.photo_filter_pattern);
+            String pictureFilterPattern = getString(R.string.picture_filter_pattern);
+
+            editFragment.loadPhotos(storageFolder, photoFilterPattern);
+            // TODO: shareFragment.loadPictures(storageFolder, pictureFilterPattern);
         }
     }
+
 }
