@@ -152,9 +152,9 @@ public class CameraFragment extends Fragment
     private String mCameraId;
 
     /**
-     * An {@link AutoFitTextureView} for camera preview.
+     * An {@link CameraAutoFitTextureView} for camera preview.
      */
-    private AutoFitTextureView mTextureView;
+    private CameraAutoFitTextureView mTextureView;
 
     /**
      * A {@link CameraCaptureSession } for camera preview.

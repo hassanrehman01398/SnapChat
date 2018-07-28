@@ -111,7 +111,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_select:
-                // TODO: cycle through a list of saved photos
                 showNextPhoto();
                 break;
             case R.id.fab_save:
