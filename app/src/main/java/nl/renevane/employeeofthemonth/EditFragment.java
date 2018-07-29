@@ -1,5 +1,6 @@
 package nl.renevane.employeeofthemonth;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,52 +11,132 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 public class EditFragment extends Fragment implements View.OnClickListener {
 
-    private EditFragmentListener editFragmentListener;
-    private String currentPhoto;
-    private final List<String> cameraRoll = new ArrayList<>();
-    private int cameraRollIndex;
-    private int cameraRollIndexMaxValue;
+    private String currentImage;
+    private final List<String> imageList = new ArrayList<>();
+    private int lastImageInList;
+    private int imageListIndex;
 
-    // called by CameraFragment through MainActivity
-    public void addToCameraRoll(String path) {
-        currentPhoto = path;
-        cameraRoll.add(path);
-        cameraRollIndexMaxValue = cameraRoll.size() - 1;
-        cameraRollIndex = cameraRollIndexMaxValue; // point to last added photo
+    private void showToast(final String text) {
+        final Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_SHORT).show());
+        }
     }
 
-    // called from MainActivity
-    public void loadPhotos(String storageFolder, String pattern) {
-        File folder = new File(storageFolder);
+    private EditFragmentListener editFragmentListener;
 
-        /*
+    // make a pattern-matched list of image paths from the storage folder
+    public void createImageList(String storageFolder, String pattern) {
+        File folder = new File(storageFolder);
+        File[] files = folder.listFiles((file, s) -> s.matches(pattern));
+
+        for (File f : files) {
+            try {
+                addToImageList(f.getCanonicalPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /* previous non-lambda version included here for reference
         File[] files = folder.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File file, String s) {
                 return s.matches(pattern);
             }
         });*/
+    }
 
-        // this is Java 8's more elegant lambda expression equivalent of the code above
-        File[] files = folder.listFiles((file, s) -> s.matches(pattern));
+    // called by CameraFragment through MainActivity
+    public void addToImageList(String path) {
+        currentImage = path;
+        imageList.add(path);
+        lastImageInList = imageList.size() - 1;
+        imageListIndex = lastImageInList; // point to last added image
+    }
 
-        // call addToCameraRoll for each file that matches the filter pattern
-        for (File f : files) {
-            try {
-                addToCameraRoll(f.getCanonicalPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_edit, container, false);
+
+        FloatingActionButton fabSelect = view.findViewById(R.id.fab_next_image);
+        FloatingActionButton fabSave = view.findViewById(R.id.fab_save_image);
+
+        fabSelect.setOnClickListener(this);
+        fabSave.setOnClickListener(this);
+
+        return view;
+    }
+
+    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
+    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ImageView editPreview = view.findViewById(R.id.edit_preview);
+        showImageInView(editPreview);
+    }
+
+    private void showImageInView(ImageView editPreview) {
+        GlideApp.with(this)
+                .load(currentImage)
+                .transition(withCrossFade())
+                .into(editPreview);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab_next_image:
+                showNextImage();
+                break;
+            case R.id.fab_save_image:
+                // TODO: save the image
+                saveEditedImage();
+                break;
         }
+    }
 
+    private void showNextImage() {
+        if (!imageList.isEmpty()) {
+            if (imageListIndex == lastImageInList) {
+                imageListIndex = 0;
+            } else imageListIndex++;
+            currentImage = imageList.get(imageListIndex);
+            refreshView();
+        }
+    }
+
+    // reload the fragment instance which effectively refreshes the view
+    private void refreshView() {
+        if (getFragmentManager() != null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .detach(this)
+                    .attach(this)
+                    .commit();
+        }
+    }
+
+    // save and pass the location of the edited image
+    private void saveEditedImage() {
+        // TODO: 'currentImage' only used for debugging now, nothing actually saved
+        editFragmentListener.onEditedImageSaved(currentImage);
+        showToast("Image saved");
     }
 
     // assign the fragment listener to the activity
@@ -71,81 +152,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_edit, container, false);
-
-        FloatingActionButton fabSelect = view.findViewById(R.id.fab_select);
-        FloatingActionButton fabSave = view.findViewById(R.id.fab_save);
-
-        fabSelect.setOnClickListener(this);
-        fabSave.setOnClickListener(this);
-
-        return view;
-    }
-
-    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
-    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ImageView editPreview = view.findViewById(R.id.edit_preview);
-        // Glide.with(this).load(currentPhoto).into(editPreview);
-        GlideApp.with(this)
-                .load(currentPhoto)
-                .into(editPreview);
-    }
-
     // remove the listener when the fragment is removed from the activity
     @Override
     public void onDetach() {
         super.onDetach();
         editFragmentListener = null;
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab_select:
-                showNextPhoto();
-                break;
-            case R.id.fab_save:
-                // TODO: save the picture.
-                saveEditedPicture();
-                break;
-        }
-    }
-
-    private void showNextPhoto() {
-        if (!cameraRoll.isEmpty()) {
-            if (cameraRollIndex == cameraRollIndexMaxValue) {
-                cameraRollIndex = 0;
-            } else cameraRollIndex++;
-            currentPhoto = cameraRoll.get(cameraRollIndex);
-            refreshView();
-        }
-    }
-
-    // reload the fragment instance which effectively refreshes the view
-    private void refreshView() {
-        if (getFragmentManager() != null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .detach(this)
-                    .attach(this)
-                    .commit();
-        }
-
-    }
-
-    // TODO: save and pass the location of the edited picture
-    private void saveEditedPicture() {
-        // TODO: save the current edit
-        // 'currentPhoto' only used for debugging now, nothing actually saved
-        editFragmentListener.onEditedPictureSaved(currentPhoto);
     }
 
 }

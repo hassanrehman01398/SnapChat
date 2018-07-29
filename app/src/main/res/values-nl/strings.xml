@@ -9,7 +9,7 @@
     <string name="fragment_text_share">Deel de weergegeven afbeelding\u000d\u000a(of selecteer een andere)</string>
     <string name="request_permission">Deze app heeft toestemming nodig om de camera te gebruiken.</string>
     <string name="camera_error">De Android-versie op dit apparaat ondersteunt de Camera2-API niet.</string>
-    <string name="toast_saved">De foto is opgeslagen als:\u000d\u000a\u000d\u000a</string>
+    <string name="toast_saved">Foto opgeslagen</string>
     <string name="edit_preview_description">Toont een voorvertoning van de bewerking</string>
     <string name="share_preview_description">Toont een voorvertoning van de te delen afbeelding</string>
 </resources>
