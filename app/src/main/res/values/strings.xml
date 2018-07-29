@@ -9,11 +9,11 @@
     <string name="fragment_text_share">Share the displayed picture\u000d\u000a(or select another)</string>
     <string name="request_permission">This app needs permission to use the camera.</string>
     <string name="camera_error">The Android version on this device does not support the Camera2 API.</string>
-    <string name="toast_saved">The photo has been saved as:\u000d\u000a\u000d\u000a</string>
+    <string name="toast_saved">Photo saved</string>
     <string name="photo_filename_pattern" translatable="false">\'photo-\'yyyyMMdd-HHmmss\'.jpg\'</string>
     <string name="photo_filter_pattern" translatable="false">photo-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d.jpg</string>
-    <string name="picture_filename_pattern" translatable="false">\'image-\'yyyyMMdd-HHmmss\'.jpg\'</string>
-    <string name="picture_filter_pattern" translatable="false">image-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d.jpg</string>
+    <string name="image_filename_pattern" translatable="false">\'image-\'yyyyMMdd-HHmmss\'.jpg\'</string>
+    <string name="image_filter_pattern" translatable="false">image-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d.jpg</string>
     <string name="edit_preview_description">Shows an edit preview</string>
     <string name="share_preview_description">Shows a share preview</string>
 </resources>

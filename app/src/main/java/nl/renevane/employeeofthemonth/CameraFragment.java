@@ -276,34 +276,6 @@ public class CameraFragment extends Fragment
      */
     private int mSensorOrientation;
 
-    // assign the fragment listener to the activity
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        // the activity needs to implement the interface for this to work
-        if (context instanceof CameraFragmentListener) {
-            cameraFragmentListener = (CameraFragmentListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement CameraFragmentListener!");
-        }
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera, container, false);
-
-        FloatingActionButton fabPhoto = view.findViewById(R.id.fab_photo);
-        fabPhoto.setOnClickListener(this);
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
-        mTextureView = view.findViewById(R.id.camera_preview);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -325,22 +297,6 @@ public class CameraFragment extends Fragment
         closeCamera();
         stopBackgroundThread();
         super.onPause();
-    }
-
-    // remove the reference to the activity when the fragment is removed from the activity
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        cameraFragmentListener = null;
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab_photo:
-                takePicture();
-                break;
-        }
     }
 
     /**
@@ -858,13 +814,12 @@ public class CameraFragment extends Fragment
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
 
-                    String savedPhotoPath;
-
                     // pass the path of the saved photo to the activity
+                    String savedPhotoPath;
                     savedPhotoPath = mFile.toString();
                     cameraFragmentListener.onCameraPhotoSaved(savedPhotoPath);
 
-                    showToast(getString(R.string.toast_saved) + savedPhotoPath);
+                    showToast(getString(R.string.toast_saved));
                     Log.d(TAG, savedPhotoPath);
                     unlockFocus();
                 }
@@ -1030,6 +985,50 @@ public class CameraFragment extends Fragment
                             })
                     .create();
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab_photo:
+                takePicture();
+                break;
+        }
+    }
+
+    // assign the fragment listener to the activity
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // the activity needs to implement the interface for this to work
+        if (context instanceof CameraFragmentListener) {
+            cameraFragmentListener = (CameraFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement CameraFragmentListener!");
+        }
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_camera, container, false);
+
+        FloatingActionButton fabPhoto = view.findViewById(R.id.fab_photo);
+        fabPhoto.setOnClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
+        mTextureView = view.findViewById(R.id.camera_preview);
+    }
+
+    // remove the reference to the activity when the fragment is removed from the activity
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        cameraFragmentListener = null;
     }
 
 }

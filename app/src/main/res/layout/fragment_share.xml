@@ -27,7 +27,7 @@
             android:textSize="20sp" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_select"
+            android:id="@+id/fab_next_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -43,7 +43,7 @@
             app:fabSize="normal" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_share"
+            android:id="@+id/fab_share_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
