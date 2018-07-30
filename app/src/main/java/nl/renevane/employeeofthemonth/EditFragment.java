@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +92,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
 
     private void showImageInEditPreview(String path) {
-        Log.i("EditFragment.showImageInEditPreview:", path);
         GlideApp.with(this)
                 .load(path)
                 .into(editPreview);
@@ -101,7 +99,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     // use Integer resource id (so that the .toString() method can be called on it)
     private void showImageIdInView(Integer id, ImageView view) {
-        Log.i("EditFragment.showImageInEditPreview:", id.toString());
         GlideApp.with(this)
                 .load(id)
                 .into(view);
@@ -114,9 +111,18 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 showNextImageInEditPreview();
                 break;
             case R.id.fab_save_image:
-                // TODO: save the combined image
+                // TODO: save the combined images
                 saveEditedImage();
                 break;
+            case R.id.fab_sticker_add:
+                // TODO add a sticker (start sticker select activity)
+                break;
+            case R.id.fab_sticker_remove:
+                // TODO remove sticker
+                break;
+            case R.id.fab_sticker_done:
+                // TODO done editing (if needed)
+
         }
     }
 
@@ -134,8 +140,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     // save and pass the location of the edited image
     private void saveEditedImage() {
         // TODO: 'currentImage' only used for debugging now, nothing actually saved
-        editFragmentListener.onEditedImageSaved(currentImage);
         showToast(getString(R.string.toast_image_saved));
+        editFragmentListener.onEditedImageSaved(currentImage);
     }
 
     // assign the fragment listener to the activity

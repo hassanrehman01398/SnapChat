@@ -66,21 +66,23 @@ public class MainActivity extends AppCompatActivity
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // highlight the camera button (not strictly necessary, but more elegant)
-        bottomNav.setSelectedItemId(R.id.nav_camera);
+        // highlight the edit button
+        bottomNav.setSelectedItemId(R.id.nav_edit);
 
-        // when the app is first started, show the camera fragment and load save images
+        // show the edit fragment
+        showFragment(editFragment);
+
+        // when the app is first started
         if (savedInstanceState == null) {
-            showFragment(cameraFragment);
 
-            // pass storageFolder and filename patterns from here inside the main activity
-            // to avoid a nullPointerExceptions and unavailable string resources
             String storageFolder = getExternalFilesDir(null).toString();
             String photoFilterPattern = getString(R.string.photo_filter_pattern);
             String imageFilterPattern = getString(R.string.image_filter_pattern);
 
+            // load saved images (if any)
             editFragment.createImageList(storageFolder, photoFilterPattern);
             shareFragment.createImageList(storageFolder, imageFilterPattern);
+
         }
     }
 
