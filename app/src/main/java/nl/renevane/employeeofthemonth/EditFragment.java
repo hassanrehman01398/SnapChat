@@ -42,8 +42,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         File folder = new File(storageFolder);
         File[] files = folder.listFiles((file, s) -> s.matches(pattern));
 
-        // The listFiles method does not guarantee any order
-        // It does however return an array which can be sorted with Arrays.sort()
+        // because the listFiles method does not guarantee any order
         Arrays.sort(files);
 
         for (File f : files) {
