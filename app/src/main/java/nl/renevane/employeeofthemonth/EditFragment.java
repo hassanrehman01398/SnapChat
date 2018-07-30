@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,14 +85,20 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView editPreview = view.findViewById(R.id.edit_preview);
-        showImageInView(editPreview);
+        ImageView motionView = view.findViewById(R.id.motion_view);
+
+        showImageInView(currentImage, editPreview);
+        // TODO: debugging
+        showImageInView("/storage/emulated/0/Android/data/nl.renevane.employeeofthemonth/files/transparency_test.png", motionView);
+
     }
 
-    private void showImageInView(ImageView editPreview) {
+    private void showImageInView(String path, ImageView view) {
+        Log.i("EditFragment.showImageInView:", path);
         GlideApp.with(this)
-                .load(currentImage)
+                .load(path)
                 .transition(withCrossFade()) // default is 300 ms
-                .into(editPreview);
+                .into(view);
     }
 
     @Override
