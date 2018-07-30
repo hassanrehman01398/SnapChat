@@ -131,17 +131,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // horse medicine! reload the fragment instance which effectively refreshes the view
-    private void reloadFragmentToRefreshView() {
-        if (getFragmentManager() != null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .detach(this)
-                    .attach(this)
-                    .commit();
-        }
-    }
-
     // save and pass the location of the edited image
     private void saveEditedImage() {
         // TODO: 'currentImage' only used for debugging now, nothing actually saved
