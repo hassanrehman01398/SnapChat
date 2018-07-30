@@ -20,14 +20,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
-
 public class EditFragment extends Fragment implements View.OnClickListener {
 
     private String currentImage;
     private final List<String> imageList = new ArrayList<>();
     private int lastImageInList;
     private int imageListIndex;
+    private ImageView editPreview;
 
     private void showToast(final String text) {
         final Activity activity = getActivity();
@@ -43,7 +42,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         File folder = new File(storageFolder);
         File[] files = folder.listFiles((file, s) -> s.matches(pattern));
 
-        // because the listFiles method does not guarantee any order
+        // listFiles method does not guarantee an ordered list
         Arrays.sort(files);
 
         for (File f : files) {
@@ -80,24 +79,33 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
-    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ImageView editPreview = view.findViewById(R.id.edit_preview);
+        editPreview = view.findViewById(R.id.edit_preview);
         ImageView motionView = view.findViewById(R.id.motion_view);
 
-        showImageInView(currentImage, editPreview);
-        // TODO: debugging
-        showImageInView("/storage/emulated/0/Android/data/nl.renevane.employeeofthemonth/files/transparency_test.png", motionView);
+        showImageInEditPreview(currentImage);
+        // TODO: transparency test in motionView SUCCEEDED!
+        showImageInView(R.drawable.sticker_beard, motionView);
 
     }
 
-    private void showImageInView(String path, ImageView view) {
-        Log.i("EditFragment.showImageInView:", path);
+    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
+    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
+
+    // used on editPreview
+    private void showImageInEditPreview(String path) {
+        Log.i("EditFragment.showImageInEditPreview:", path);
         GlideApp.with(this)
                 .load(path)
-                .transition(withCrossFade()) // default is 300 ms
+                .into(editPreview);
+    }
+
+    // use Integer resource id (so that the .toString() method can be called on it)
+    private void showImageInView(Integer id, ImageView view) {
+        Log.i("EditFragment.showImageInEditPreview:", id.toString());
+        GlideApp.with(this)
+                .load(id)
                 .into(view);
     }
 
@@ -105,27 +113,28 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_next_image:
-                showNextImage();
+                showNextImageInEditPreview();
                 break;
             case R.id.fab_save_image:
-                // TODO: save the image
+                // TODO: save the combined image
                 saveEditedImage();
                 break;
         }
     }
 
-    private void showNextImage() {
+    private void showNextImageInEditPreview() {
         if (!imageList.isEmpty()) {
             if (imageListIndex == lastImageInList) {
                 imageListIndex = 0;
             } else imageListIndex++;
             currentImage = imageList.get(imageListIndex);
-            refreshView();
+
+            showImageInEditPreview(currentImage);
         }
     }
 
-    // reload the fragment instance which effectively refreshes the view
-    private void refreshView() {
+    // horse medicine! reload the fragment instance which effectively refreshes the view
+    private void reloadFragmentToRefreshView() {
         if (getFragmentManager() != null) {
             getFragmentManager()
                     .beginTransaction()
@@ -139,7 +148,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private void saveEditedImage() {
         // TODO: 'currentImage' only used for debugging now, nothing actually saved
         editFragmentListener.onEditedImageSaved(currentImage);
-        showToast("Image saved");
+        showToast(getString(R.string.toast_image_saved));
     }
 
     // assign the fragment listener to the activity
