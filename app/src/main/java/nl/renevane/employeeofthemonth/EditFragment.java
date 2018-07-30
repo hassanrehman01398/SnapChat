@@ -91,7 +91,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private void showImageInView(ImageView editPreview) {
         GlideApp.with(this)
                 .load(currentImage)
-                .transition(withCrossFade())
+                .transition(withCrossFade()) // default is 300 ms
                 .into(editPreview);
     }
 
