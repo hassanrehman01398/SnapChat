@@ -110,18 +110,19 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case R.id.fab_next_image:
                 showNextImageInEditPreview();
                 break;
-            case R.id.fab_save_image:
-                // TODO: save the combined images
-                saveEditedImage();
-                break;
             case R.id.fab_sticker_add:
                 // TODO add a sticker (start sticker select activity)
+
                 break;
             case R.id.fab_sticker_remove:
                 // TODO remove sticker
                 break;
             case R.id.fab_sticker_done:
                 // TODO done editing (if needed)
+                break;
+            case R.id.fab_save_image:
+                // TODO: save the combined images
+                saveEditedImage();
                 break;
         }
     }
