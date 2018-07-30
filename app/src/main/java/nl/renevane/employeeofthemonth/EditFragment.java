@@ -84,7 +84,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         ImageView motionView = view.findViewById(R.id.motion_view);
 
         showImageInEditPreview(currentImage);
-        showImageIdInView(R.drawable.sticker_beard, motionView);
+        showImageIdInView(R.drawable.sticker_beard_brown_mustache, motionView);
 
     }
 
