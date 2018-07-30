@@ -13,4 +13,5 @@
     <string name="toast_image_saved">Afbeelding opgeslagen</string>
     <string name="edit_preview_description">Toont een voorvertoning van de bewerking</string>
     <string name="share_preview_description">Toont een voorvertoning van de te delen afbeelding</string>
+    <string name="motion_view_description">Toont de motion view laag</string>
 </resources>

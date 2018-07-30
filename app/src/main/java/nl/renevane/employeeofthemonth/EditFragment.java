@@ -85,15 +85,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         ImageView motionView = view.findViewById(R.id.motion_view);
 
         showImageInEditPreview(currentImage);
-        // TODO: transparency test in motionView SUCCEEDED!
-        showImageInView(R.drawable.sticker_beard, motionView);
+        showImageIdInView(R.drawable.sticker_beard, motionView);
 
     }
 
     // Glide (https://bumptech.github.io/glide/) makes image handling much easier
     // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
 
-    // used on editPreview
     private void showImageInEditPreview(String path) {
         Log.i("EditFragment.showImageInEditPreview:", path);
         GlideApp.with(this)
@@ -102,7 +100,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     }
 
     // use Integer resource id (so that the .toString() method can be called on it)
-    private void showImageInView(Integer id, ImageView view) {
+    private void showImageIdInView(Integer id, ImageView view) {
         Log.i("EditFragment.showImageInEditPreview:", id.toString());
         GlideApp.with(this)
                 .load(id)
