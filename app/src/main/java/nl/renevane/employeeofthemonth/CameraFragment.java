@@ -819,7 +819,7 @@ public class CameraFragment extends Fragment
                     savedPhotoPath = mFile.toString();
                     cameraFragmentListener.onCameraPhotoSaved(savedPhotoPath);
 
-                    showToast(getString(R.string.toast_saved));
+                    showToast(getString(R.string.toast_photo_saved));
                     Log.d(TAG, savedPhotoPath);
                     unlockFocus();
                 }
