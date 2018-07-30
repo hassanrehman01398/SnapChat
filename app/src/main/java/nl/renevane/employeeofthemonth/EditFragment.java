@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -41,6 +42,10 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         File folder = new File(storageFolder);
         File[] files = folder.listFiles((file, s) -> s.matches(pattern));
 
+        // The listFiles method does not guarantee any order
+        // It does however return an array which can be sorted with Arrays.sort()
+        Arrays.sort(files);
+
         for (File f : files) {
             try {
                 addToImageList(f.getCanonicalPath());
@@ -48,14 +53,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
         }
-
-        /* previous non-lambda version included here for reference
-        File[] files = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String s) {
-                return s.matches(pattern);
-            }
-        });*/
     }
 
     // called by CameraFragment through MainActivity
