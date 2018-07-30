@@ -122,7 +122,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fab_sticker_done:
                 // TODO done editing (if needed)
-
+                break;
         }
     }
 
