@@ -267,7 +267,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             }
         }
 
-        // pass the path of the saved image to the activity
+        // pass the path of the saved image to the activity and from there to the share fragment
         editFragmentListener.onEditedImageSaved(outputStreamDestination);
 
         showToast(getString(R.string.toast_image_saved));
