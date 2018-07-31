@@ -19,6 +19,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/text_fragment_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -27,7 +28,7 @@
             android:textSize="20sp" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_next_image"
+            android:id="@+id/fab_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

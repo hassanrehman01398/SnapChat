@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Build;
@@ -80,7 +79,6 @@ public class MotionView extends FrameLayout {
     }
 
     private void init(@NonNull Context context) {
-        // I fucking love Android
         setWillNotDraw(false);
 
         selectedLayerPaint = new Paint();
@@ -181,11 +179,10 @@ public class MotionView extends FrameLayout {
      *
      * @return bitmap with all the Entities at their current positions
      */
-    public Bitmap getImageInView() {
+    public Bitmap getMotionViewBitmap() {
         selectEntity(null, false);
+
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-        bitmap.eraseColor(Color.WHITE);
-        // TODO: check what this does: bitmap.eraseColor(Color.TRANSPARENT);
         Canvas canvas = new Canvas(bitmap);
         drawAllEntities(canvas);
         return bitmap;
@@ -354,7 +351,10 @@ public class MotionView extends FrameLayout {
         public boolean onScale(ScaleGestureDetector detector) {
             if (selectedEntity != null) {
                 float scaleFactorDiff = detector.getScaleFactor();
-                selectedEntity.getLayer().postScale(scaleFactorDiff - 1.0F);
+                // selectedEntity.getLayer().postScale(scaleFactorDiff - 1.0F);
+                // fix scale bug according to:
+                // https://github.com/uptechteam/MotionViews-Android/pull/19/files
+                selectedEntity.getLayer().postScale(scaleFactorDiff);
                 updateUI();
             }
             return true;

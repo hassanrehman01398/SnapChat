@@ -1,6 +1,8 @@
 package nl.renevane.employeeofthemonth;
 
 import android.Manifest;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -41,6 +43,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -235,7 +238,7 @@ public class CameraFragment extends Fragment
         @Override
         public void onImageAvailable(ImageReader reader) {
             String fileName
-                    = new SimpleDateFormat(getString(R.string.photo_filename_pattern), Locale.US)
+                    = new SimpleDateFormat(getString(R.string.pattern_filename_photo), Locale.US)
                     .format(new Date());
             mFile = new File(getActivity().getExternalFilesDir(null), fileName);
 
@@ -1022,6 +1025,16 @@ public class CameraFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
         mTextureView = view.findViewById(R.id.camera_preview);
+        TextView textView = view.findViewById(R.id.text_fragment_camera);
+
+        fadeInThenWaitThenFadeOut(textView);
+    }
+
+    private void fadeInThenWaitThenFadeOut(TextView textView) {
+        AnimatorSet set = (AnimatorSet) AnimatorInflater
+                .loadAnimator(getActivity(), R.animator.fade_in_then_out);
+        set.setTarget(textView);
+        set.start();
     }
 
     // remove the reference to the activity when the fragment is removed from the activity

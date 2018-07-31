@@ -1,5 +1,7 @@
 package nl.renevane.employeeofthemonth;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -72,7 +75,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_share, container, false);
 
-        FloatingActionButton fabSelect = view.findViewById(R.id.fab_next_image);
+        FloatingActionButton fabSelect = view.findViewById(R.id.fab_next);
         FloatingActionButton fabShare = view.findViewById(R.id.fab_share_image);
 
         fabSelect.setOnClickListener(this);
@@ -81,12 +84,20 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
-    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView sharePreview = view.findViewById(R.id.share_preview);
+        TextView textView = view.findViewById(R.id.text_fragment_share);
+
         showImageInView(sharePreview);
+        fadeInThenWaitThenFadeOut(textView);
+    }
+
+    private void fadeInThenWaitThenFadeOut(TextView textView) {
+        AnimatorSet set = (AnimatorSet) AnimatorInflater
+                .loadAnimator(getActivity(), R.animator.fade_in_then_out);
+        set.setTarget(textView);
+        set.start();
     }
 
     private void showImageInView(ImageView editPreview) {
@@ -99,7 +110,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab_next_image:
+            case R.id.fab_next:
                 showNextImage();
                 break;
             case R.id.fab_share_image:

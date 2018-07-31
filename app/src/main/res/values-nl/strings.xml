@@ -16,4 +16,6 @@
     <string name="share_preview_description">Toont een voorvertoning van de te delen afbeelding</string>
     <string name="motion_view_description">Toont de motion view-laag</string>
     <string name="sticker_image_description">Sticker afbeelding</string>
+    <string name="text_overlay_employeeofthemonth">medewerker van de maand</string>
+    <string name="text_overlay_currentmonth">SeptembeR</string>
 </resources>
