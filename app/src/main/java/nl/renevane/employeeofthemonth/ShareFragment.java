@@ -3,11 +3,14 @@ package nl.renevane.employeeofthemonth;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +105,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
                 showNextImageInSharePreview();
                 break;
             case R.id.fab_share:
-                // TODO shareEditedImage();
+                shareCurrentImage();
                 break;
         }
     }
@@ -116,6 +119,26 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
 
             showImageInSharePreview(currentImage);
         }
+    }
+
+    /*private void shareCurrentImage() {
+        Uri sharedFileUri
+                = FileProvider.getUriForFile(getActivity()
+                , getString(R.string.provider_authority), new File(currentImage));
+        ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity()).addStream(sharedFileUri);
+        Intent chooserIntent = intentBuilder.createChooserIntent();
+        startActivity(chooserIntent);
+    }*/
+
+    private void shareCurrentImage() {
+        Uri sharedFileUri
+                = FileProvider.getUriForFile(getActivity()
+                , getString(R.string.provider_authority), new File(currentImage));
+
+        Intent intentShare = new Intent(Intent.ACTION_SEND);
+        intentShare.setType("image/png");
+        intentShare.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
+        startActivity(Intent.createChooser(intentShare, ""));
     }
 
     private void showToast(final String text) {
