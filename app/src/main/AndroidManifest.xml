@@ -30,6 +30,10 @@
 
         </activity>
 
+        <activity
+            android:name=".StickerSelectActivity"
+            android:label="@string/activity_add_sticker" />
+
     </application>
 
 </manifest>

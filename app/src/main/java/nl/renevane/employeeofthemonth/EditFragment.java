@@ -26,6 +26,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private int lastImageInList;
     private int imageListIndex;
     private ImageView editPreview;
+    private MotionView motionView;
+    static final int SELECT_STICKER_REQUEST_CODE = 123;
+
+    private EditFragmentListener editFragmentListener;
+
 
     private void showToast(final String text) {
         final Activity activity = getActivity();
@@ -33,8 +38,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_SHORT).show());
         }
     }
-
-    private EditFragmentListener editFragmentListener;
 
     // make a pattern-matched list of image paths from the storage folder
     public void createImageList(String storageFolder, String pattern) {
@@ -69,10 +72,16 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
-        FloatingActionButton fabSelect = view.findViewById(R.id.fab_next_image);
+        FloatingActionButton fabStickerRemove = view.findViewById(R.id.fab_sticker_remove);
+        FloatingActionButton fabStickerAdd = view.findViewById(R.id.fab_sticker_add);
+        FloatingActionButton fabStickerDone = view.findViewById(R.id.fab_sticker_done);
+        FloatingActionButton fabNext = view.findViewById(R.id.fab_next_image);
         FloatingActionButton fabSave = view.findViewById(R.id.fab_save_image);
 
-        fabSelect.setOnClickListener(this);
+        fabStickerRemove.setOnClickListener(this);
+        fabStickerAdd.setOnClickListener(this);
+        fabStickerDone.setOnClickListener(this);
+        fabNext.setOnClickListener(this);
         fabSave.setOnClickListener(this);
 
         return view;
@@ -81,10 +90,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         editPreview = view.findViewById(R.id.edit_preview);
-        ImageView motionView = view.findViewById(R.id.motion_view);
+        motionView = view.findViewById(R.id.motion_view);
 
         showImageInEditPreview(currentImage);
-        showImageIdInView(R.drawable.sticker_beard_brown_mustache, motionView);
+        // TODO testing code will not work anymore - remove when sticker functionality done
+        // showImageIdInView(R.drawable.sticker_beard_brown_mustache, motionView);
 
     }
 
@@ -95,13 +105,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         GlideApp.with(this)
                 .load(path)
                 .into(editPreview);
-    }
-
-    // use Integer resource id (so that the .toString() method can be called on it)
-    private void showImageIdInView(Integer id, ImageView view) {
-        GlideApp.with(this)
-                .load(id)
-                .into(view);
     }
 
     @Override

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Employee of the month</string>
+    <string name="activity_add_sticker">Add sticker</string>
     <string name="nav_text_camera">Camera</string>
     <string name="nav_text_edit">Edit</string>
     <string name="nav_text_share">Share</string>
@@ -14,6 +15,7 @@
     <string name="edit_preview_description">Shows an edit preview</string>
     <string name="share_preview_description">Shows a share preview</string>
     <string name="motion_view_description">Shows the motion view layer</string>
+    <string name="sticker_image_description">Sticker image</string>
     <string name="photo_filename_pattern" translatable="false">\'photo-\'yyyyMMdd-HHmmss\'.jpg\'</string>
     <string name="photo_filter_pattern" translatable="false">photo-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d.jpg</string>
     <string name="image_filename_pattern" translatable="false">\'image-\'yyyyMMdd-HHmmss\'.jpg\'</string>
