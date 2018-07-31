@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.media.ImageReader;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,7 +47,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private FrameLayout combinedView;
     private FrameLayout employeeOfTheMonthFrame;
     static final int SELECT_STICKER_REQUEST_CODE = 123;
-    private ImageReader imageReader;
     private EditFragmentListener editFragmentListener;
 
 
