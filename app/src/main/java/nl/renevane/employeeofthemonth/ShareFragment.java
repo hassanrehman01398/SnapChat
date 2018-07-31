@@ -18,9 +18,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class ShareFragment extends Fragment implements View.OnClickListener {
 
@@ -28,19 +27,15 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
     private List<String> imageList = new ArrayList<>();
     private int lastImageInList;
     private int imageListIndex;
-
-    private void showToast(final String text) {
-        final Activity activity = getActivity();
-        if (activity != null) {
-            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_SHORT).show());
-        }
-    }
+    private ImageView sharePreview;
 
     // make a pattern-matched list of image paths from the storage folder
     public void createImageList(String storageFolder, String pattern) {
-
         File folder = new File(storageFolder);
         File[] files = folder.listFiles((file, s) -> s.matches(pattern));
+
+        // listFiles method does not guarantee an ordered list
+        Arrays.sort(files);
 
         for (File f : files) {
             try {
@@ -49,14 +44,6 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
         }
-
-        /* previous non-lambda version included here for reference
-        File[] files = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String s) {
-                return s.matches(pattern);
-            }
-        });*/
     }
 
     // called by EditFragment through MainActivity
@@ -76,7 +63,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_share, container, false);
 
         FloatingActionButton fabSelect = view.findViewById(R.id.fab_next);
-        FloatingActionButton fabShare = view.findViewById(R.id.fab_share_image);
+        FloatingActionButton fabShare = view.findViewById(R.id.fab_share);
 
         fabSelect.setOnClickListener(this);
         fabShare.setOnClickListener(this);
@@ -86,11 +73,11 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ImageView sharePreview = view.findViewById(R.id.share_preview);
-        TextView textView = view.findViewById(R.id.text_fragment_share);
+        sharePreview = view.findViewById(R.id.share_preview);
+        TextView fragmentText = view.findViewById(R.id.text_fragment_share);
 
-        showImageInView(sharePreview);
-        fadeInThenWaitThenFadeOut(textView);
+        showImageInSharePreview(currentImage);
+        fadeInThenWaitThenFadeOut(fragmentText);
     }
 
     private void fadeInThenWaitThenFadeOut(TextView textView) {
@@ -100,43 +87,41 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         set.start();
     }
 
-    private void showImageInView(ImageView editPreview) {
+    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
+    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
+    private void showImageInSharePreview(String path) {
         GlideApp.with(this)
-                .load(currentImage)
-                .transition(withCrossFade())
-                .into(editPreview);
+                .load(path)
+                .into(sharePreview);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_next:
-                showNextImage();
+                showNextImageInSharePreview();
                 break;
-            case R.id.fab_share_image:
+            case R.id.fab_share:
                 // TODO shareEditedImage();
                 break;
         }
     }
 
-    private void showNextImage() {
+    private void showNextImageInSharePreview() {
         if (!imageList.isEmpty()) {
             if (imageListIndex == lastImageInList) {
                 imageListIndex = 0;
             } else imageListIndex++;
             currentImage = imageList.get(imageListIndex);
-            refreshView();
+
+            showImageInSharePreview(currentImage);
         }
     }
 
-    // reload the fragment instance which effectively refreshes the view
-    private void refreshView() {
-        if (getFragmentManager() != null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .detach(this)
-                    .attach(this)
-                    .commit();
+    private void showToast(final String text) {
+        final Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_SHORT).show());
         }
     }
 
