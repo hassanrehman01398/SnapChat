@@ -62,24 +62,23 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // set a reference to the bottom navigation view and pass the nav listener to it
+        // hook a listener onto the bottom navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // highlight the edit button
-        bottomNav.setSelectedItemId(R.id.nav_edit);
-
-        // show the edit fragment
-        showFragment(editFragment);
-
         // when the app is first started
         if (savedInstanceState == null) {
+            // highlight the edit button
+            bottomNav.setSelectedItemId(R.id.nav_edit);
+
+            // show the edit fragment
+            showFragment(editFragment);
 
             String storageFolder = getExternalFilesDir(null).toString();
-            String photoFilterPattern = getString(R.string.photo_filter_pattern);
-            String imageFilterPattern = getString(R.string.image_filter_pattern);
+            String photoFilterPattern = getString(R.string.pattern_filter_photo);
+            String imageFilterPattern = getString(R.string.pattern_filter_image);
 
-            // load saved images (if any)
+            // load previously saved images (if any)
             editFragment.createImageList(storageFolder, photoFilterPattern);
             shareFragment.createImageList(storageFolder, imageFilterPattern);
 

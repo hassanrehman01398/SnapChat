@@ -40,7 +40,10 @@ public class MotionEntityLayer {
     }
 
     public void postScale(float scaleDiff) {
-        float newVal = scale + scaleDiff;
+        // float newVal = scale + scaleDiff;
+        // fix scale bug according to:
+        // https://github.com/uptechteam/MotionViews-Android/pull/19/files
+        float newVal = scale * scaleDiff;
         if (newVal >= getMinScale() && newVal <= getMaxScale()) {
             scale = newVal;
         }
