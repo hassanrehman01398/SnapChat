@@ -6,8 +6,8 @@
     <string name="nav_text_edit">Bewerken</string>
     <string name="nav_text_share">Delen</string>
     <string name="fragment_text_photo">Neem een foto</string>
-    <string name="fragment_text_edit">Bewerk de weergegeven foto\u000d\u000a(of selecteer een andere)\u000d\u000aen sla het resultaat op</string>
-    <string name="fragment_text_share">Deel de weergegeven afbeelding\u000d\u000a(of selecteer een andere)</string>
+    <string name="fragment_text_edit">Bewerk de weergegeven foto\n(of selecteer een andere)\nen sla het resultaat op</string>
+    <string name="fragment_text_share">Deel de weergegeven afbeelding\n(of selecteer een andere)</string>
     <string name="request_permission">Deze app heeft toestemming nodig om de camera te gebruiken.</string>
     <string name="camera_error">De Android-versie op dit apparaat ondersteunt de Camera2-API niet.</string>
     <string name="toast_photo_saved">Foto opgeslagen</string>

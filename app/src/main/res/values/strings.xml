@@ -6,8 +6,8 @@
     <string name="nav_text_edit">Edit</string>
     <string name="nav_text_share">Share</string>
     <string name="fragment_text_photo">Take a photo</string>
-    <string name="fragment_text_edit">Edit the displayed photo\u000d\u000a(or select another)\u000d\u000aand save the result</string>
-    <string name="fragment_text_share">Share the displayed picture\u000d\u000a(or select another)</string>
+    <string name="fragment_text_edit">Edit the displayed photo\n(or select another)\nand save the result</string>
+    <string name="fragment_text_share">Share the displayed picture\n(or select another)</string>
     <string name="request_permission">This app needs permission to use the camera.</string>
     <string name="camera_error">The Android version on this device does not support the Camera2 API.</string>
     <string name="toast_photo_saved">Photo saved</string>
