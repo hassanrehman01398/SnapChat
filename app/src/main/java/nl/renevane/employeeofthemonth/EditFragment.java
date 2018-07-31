@@ -49,7 +49,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private FrameLayout employeeOfTheMonthFrame;
     static final int SELECT_STICKER_REQUEST_CODE = 123;
     private ImageReader imageReader;
-
     private EditFragmentListener editFragmentListener;
 
 
@@ -104,29 +103,31 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         editPreview = view.findViewById(R.id.edit_preview);
+
         motionView = view.findViewById(R.id.motion_view);
         combinedView = view.findViewById(R.id.combined_view);
         employeeOfTheMonthFrame = view.findViewById(R.id.frame_employeeofthemonth);
 
         TextView fragmentText = view.findViewById(R.id.text_fragment_edit);
-        TextView currentMonthOverlayText = view.findViewById(R.id.text_overlay_currentmonth);
 
+        TextView currentMonthOverlayText = view.findViewById(R.id.text_overlay_currentmonth);
         currentMonthOverlayText.setText(getCurrentMonth());
+
         showImageInEditPreview(currentImage);
         fadeInThenWaitThenFadeOut(fragmentText);
-    }
-
-    private void unhideEmployeeOfTheMonthFrame() {
-        employeeOfTheMonthFrame.setVisibility(View.VISIBLE);
-    }
-
-    private void hideEmployeeOfTheMonthFrame() {
-        employeeOfTheMonthFrame.setVisibility(View.INVISIBLE);
     }
 
     private CharSequence getCurrentMonth() {
         return new SimpleDateFormat(getString(R.string.month_pattern), Locale.US)
                 .format(new Date());
+    }
+
+    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
+    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
+    private void showImageInEditPreview(String path) {
+        GlideApp.with(this)
+                .load(path)
+                .into(editPreview);
     }
 
     private void fadeInThenWaitThenFadeOut(TextView textView) {
@@ -220,19 +221,19 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         editFragmentListener = null;
     }
 
-    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
-    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
-    private void showImageInEditPreview(String path) {
-        GlideApp.with(this)
-                .load(path)
-                .into(editPreview);
-    }
-
     // save and pass the location of the combined image
     private void saveMergedImage() {
         unhideEmployeeOfTheMonthFrame();
         saveBitmap(getBitmapFromView(combinedView));
         hideEmployeeOfTheMonthFrame();
+    }
+
+    private void unhideEmployeeOfTheMonthFrame() {
+        employeeOfTheMonthFrame.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmployeeOfTheMonthFrame() {
+        employeeOfTheMonthFrame.setVisibility(View.INVISIBLE);
     }
 
     private Bitmap getBitmapFromView(View view) {
@@ -271,7 +272,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         editFragmentListener.onEditedImageSaved(outputStreamDestination);
 
         showToast(getString(R.string.toast_image_saved));
-
     }
 
     private void showToast(final String text) {
