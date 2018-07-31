@@ -11,15 +11,15 @@
 
     <ImageView
         android:id="@+id/edit_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:contentDescription="@string/edit_preview_description" />
 
     <nl.renevane.employeeofthemonth.MotionView
         android:id="@+id/motion_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:contentDescription="@string/motion_view_description" />
 
@@ -57,19 +57,6 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/icon_fab_sticker_add"
-            android:theme="@style/MyFloatingActionButtonStyle"
-            app:fabSize="auto"
-            app:useCompatPadding="true" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_sticker_done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginStart="144dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/icon_fab_sticker_done"
             android:theme="@style/MyFloatingActionButtonStyle"
             app:fabSize="auto"
             app:useCompatPadding="true" />
