@@ -16,11 +16,12 @@
     <string name="share_preview_description">Shows a share preview</string>
     <string name="motion_view_description">Shows the motion view layer</string>
     <string name="sticker_image_description">Sticker image</string>
+    <string name="text_overlay_employeeofthemonth">employee of the month</string>
+    <string name="text_overlay_currentmonth">SeptembeR</string>
     <string name="pattern_filename_photo" translatable="false">\'photo-\'yyyyMMdd-HHmmss\'.jpg\'</string>
     <string name="pattern_filename_image" translatable="false">\'image-\'yyyyMMdd-HHmmss\'.jpg\'</string>
     <string name="pattern_filter_photo" translatable="false">photo-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d.jpg</string>
     <string name="pattern_filter_image" translatable="false">image-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d.jpg</string>
     <string name="month_pattern" translatable="false">MMMM</string>
-    <string name="text_overlay_employeeofthemonth">employee of the month</string>
-    <string name="text_overlay_currentmonth">SeptembeR</string>
+    <string name="provider_authority" translatable="false">nl.renevane.employeeofthemonth.myfileprovider</string>
 </resources>
