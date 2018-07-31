@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +39,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class EditFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "_EditFragment_";
-
     private String currentImage;
     private final List<String> imageList = new ArrayList<>();
     private int lastImageInList;
@@ -52,7 +49,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private FrameLayout employeeOfTheMonthFrame;
     static final int SELECT_STICKER_REQUEST_CODE = 123;
     private ImageReader imageReader;
-    private File file;
 
     private EditFragmentListener editFragmentListener;
 
@@ -235,10 +231,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     // save and pass the location of the combined image
     private void saveMergedImage() {
         unhideEmployeeOfTheMonthFrame();
-        Log.i(TAG, "Called: saveBitmap(getBitmapFromView(combinedView));");
         saveBitmap(getBitmapFromView(combinedView));
         hideEmployeeOfTheMonthFrame();
-        showToast(getString(R.string.toast_image_saved));
     }
 
     private Bitmap getBitmapFromView(View view) {
@@ -272,6 +266,12 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
         }
+
+        // pass the path of the saved image to the activity
+        editFragmentListener.onEditedImageSaved(outputStreamDestination);
+
+        showToast(getString(R.string.toast_image_saved));
+
     }
 
     private void showToast(final String text) {
