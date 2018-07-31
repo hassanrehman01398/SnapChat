@@ -222,6 +222,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     // save and pass the location of the combined image
     private void saveMergedImage() {
         unhideEmployeeOfTheMonthFrame();
+        motionView.unselectEntity();
         saveBitmap(getBitmapFromView(combinedView));
         hideEmployeeOfTheMonthFrame();
     }
