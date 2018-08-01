@@ -121,24 +121,17 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    /*private void shareCurrentImage() {
-        Uri sharedFileUri
-                = FileProvider.getUriForFile(getActivity()
-                , getString(R.string.provider_authority), new File(currentImage));
-        ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity()).addStream(sharedFileUri);
-        Intent chooserIntent = intentBuilder.createChooserIntent();
-        startActivity(chooserIntent);
-    }*/
-
     private void shareCurrentImage() {
-        Uri sharedFileUri
-                = FileProvider.getUriForFile(getActivity()
-                , getString(R.string.provider_authority), new File(currentImage));
+        if (null != currentImage) {
+            Uri sharedFileUri
+                    = FileProvider.getUriForFile(getActivity()
+                    , getString(R.string.provider_authority), new File(currentImage));
 
-        Intent intentShare = new Intent(Intent.ACTION_SEND);
-        intentShare.setType("image/png");
-        intentShare.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
-        startActivity(Intent.createChooser(intentShare, ""));
+            Intent intentShare = new Intent(Intent.ACTION_SEND);
+            intentShare.setType("image/png");
+            intentShare.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
+            startActivity(Intent.createChooser(intentShare, ""));
+        }
     }
 
     private void showToast(final String text) {
