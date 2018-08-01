@@ -128,7 +128,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
                     , getString(R.string.provider_authority), new File(currentImage));
 
             Intent intentShare = new Intent(Intent.ACTION_SEND);
-            intentShare.setType("image/png");
+            intentShare.setType("image/jpeg");
             intentShare.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
             startActivity(Intent.createChooser(intentShare, ""));
         }
