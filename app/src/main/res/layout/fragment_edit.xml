@@ -81,9 +81,10 @@
             android:layout_gravity="top|start"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/icon_fab_sticker_add"
             android:theme="@style/MyFloatingActionButtonStyle"
+
             app:fabSize="auto"
+            app:srcCompat="@drawable/icon_fab_sticker_add"
             app:useCompatPadding="true" />
 
         <android.support.design.widget.FloatingActionButton
@@ -94,9 +95,9 @@
             android:layout_marginStart="72dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/icon_fab_sticker_remove"
             android:theme="@style/MyFloatingActionButtonStyle"
             app:fabSize="auto"
+            app:srcCompat="@drawable/icon_fab_sticker_remove"
             app:useCompatPadding="true" />
 
         <android.support.design.widget.FloatingActionButton
@@ -107,9 +108,9 @@
             android:layout_marginStart="144dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/icon_fab_sticker_flip"
             android:theme="@style/MyFloatingActionButtonStyle"
             app:fabSize="auto"
+            app:srcCompat="@drawable/icon_fab_sticker_flip"
             app:useCompatPadding="true" />
 
         <android.support.design.widget.FloatingActionButton

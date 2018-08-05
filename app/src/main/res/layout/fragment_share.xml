@@ -35,9 +35,9 @@
             android:layout_marginBottom="72dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/icon_fab_next"
             android:theme="@style/MyFloatingActionButtonStyle"
             app:fabSize="auto"
+            app:srcCompat="@drawable/icon_fab_next"
             app:useCompatPadding="true" />
 
         <android.support.design.widget.FloatingActionButton
@@ -47,9 +47,9 @@
             android:layout_gravity="bottom|end"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/icon_fab_share"
             android:theme="@style/MyFloatingActionButtonStyle"
             app:fabSize="auto"
+            app:srcCompat="@drawable/icon_fab_share"
             app:useCompatPadding="true" />
 
     </FrameLayout>
