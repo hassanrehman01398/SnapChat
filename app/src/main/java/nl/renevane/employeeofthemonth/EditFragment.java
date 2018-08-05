@@ -20,19 +20,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import nl.renevane.employeeofthemonth.entity.ImageEntity;
+import nl.renevane.employeeofthemonth.entity.MotionEntityLayer;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import nl.renevane.employeeofthemonth.entity.ImageEntity;
-import nl.renevane.employeeofthemonth.entity.MotionEntityLayer;
+import java.util.*;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -116,8 +112,9 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     }
 
     private CharSequence getCurrentMonth() {
-        return new SimpleDateFormat(getString(R.string.month_pattern), Locale.US)
-                .format(new Date());
+        Calendar calendar = Calendar.getInstance();
+        // get the month name in the language set on the device
+        return new SimpleDateFormat("MMMM").format(calendar.getTime());
     }
 
     // Glide (https://bumptech.github.io/glide/) makes image handling much easier
