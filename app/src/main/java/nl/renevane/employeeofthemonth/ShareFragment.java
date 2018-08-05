@@ -122,7 +122,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
     }
 
     private void shareCurrentImage() {
-        if (null != currentImage) {
+        if (currentImage != null) {
             Uri sharedFileUri
                     = FileProvider.getUriForFile(getActivity()
                     , getString(R.string.provider_authority), new File(currentImage));
