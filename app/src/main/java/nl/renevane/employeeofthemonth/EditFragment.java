@@ -114,7 +114,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private CharSequence getCurrentMonth() {
         Calendar calendar = Calendar.getInstance();
         // get the month name in the language set on the device
-        return new SimpleDateFormat("MMMM").format(calendar.getTime());
+        return new SimpleDateFormat(getString(R.string.month_pattern)).format(calendar.getTime());
     }
 
     // Glide (https://bumptech.github.io/glide/) makes image handling much easier
