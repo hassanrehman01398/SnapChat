@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import nl.renevane.employeeofthemonth.entity.ImageEntity;
 import nl.renevane.employeeofthemonth.entity.MotionEntityLayer;
 
@@ -216,12 +217,14 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         editFragmentListener = null;
     }
 
-    // save and pass the location of the combined image
+    // combined image will be saved only if there is an image AND at least one sticker
     private void saveMergedImage() {
-        unhideEmployeeOfTheMonthFrame();
-        motionView.unselectEntity();
-        saveBitmap(getBitmapFromView(combinedView));
-        hideEmployeeOfTheMonthFrame();
+        if (currentImage != null && !motionView.getEntities().isEmpty()) {
+            unhideEmployeeOfTheMonthFrame();
+            motionView.unselectEntity();
+            saveBitmap(getBitmapFromView(combinedView));
+            hideEmployeeOfTheMonthFrame();
+        }
     }
 
     private void unhideEmployeeOfTheMonthFrame() {
