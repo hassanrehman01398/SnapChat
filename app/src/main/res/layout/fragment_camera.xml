@@ -29,6 +29,19 @@
             android:textSize="20sp" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="72dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:theme="@style/MyFloatingActionButtonStyle"
+            app:fabSize="auto"
+            app:srcCompat="@drawable/icon_fab_switch"
+            app:useCompatPadding="true" />
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
