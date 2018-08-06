@@ -1,14 +1,18 @@
 apply plugin: 'com.android.application'
 
+// https://developer.android.com/studio/publish/app-signing#secure-key
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
 
-    // TODO https://developer.android.com/studio/publish/app-signing#secure-key
     signingConfigs {
         config {
-            keyAlias 'Rene'
-            keyPassword '0TnqfW51E4KhKqoduMQy'
-            storeFile file('C:/Users/Rene/.android/keystore.jks')
-            storePassword 'n8boN9vtBDeuUxBSHwAM'
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
     compileSdkVersion 27
