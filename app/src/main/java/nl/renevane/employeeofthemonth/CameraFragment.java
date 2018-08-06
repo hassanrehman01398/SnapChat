@@ -65,6 +65,8 @@ public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private CameraFragmentListener cameraFragmentListener;
+    private boolean mAutoFocusSupported;
+    private int mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
 
     /**
      * Conversion from screen rotation to JPEG orientation.
@@ -455,6 +457,31 @@ public class CameraFragment extends Fragment
         }
     }
 
+    /*
+     * Code for switching cameras
+     * https://stackoverflow.com/a/48680929
+     */
+    private void switchCamera() {
+        if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_BACK) {
+            mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+            closeCamera();
+            reopenCamera();
+
+        } else if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
+            mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
+            closeCamera();
+            reopenCamera();
+        }
+    }
+
+    private void reopenCamera() {
+        if (mTextureView.isAvailable()) {
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+        } else {
+            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+        }
+    }
+
     /**
      * Sets up member variables related to camera.
      *
@@ -470,11 +497,16 @@ public class CameraFragment extends Fragment
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
 
-                // We don't use a front facing camera in this sample.
                 Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
+                if (facing != null && facing != mCameraLensFacingDirection) {
                     continue;
                 }
+
+                // Determine if autofocus is supported for selected camera
+                // https://stackoverflow.com/a/40597153
+                int[] afAvailableModes = characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
+                mAutoFocusSupported = (afAvailableModes.length != 0) && ((afAvailableModes.length != 1)
+                        || (afAvailableModes[0] != CameraMetadata.CONTROL_AF_MODE_OFF));
 
                 StreamConfigurationMap map = characteristics.get(
                         CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
@@ -744,9 +776,14 @@ public class CameraFragment extends Fragment
 
     /**
      * Initiate a still image capture.
+     * https://stackoverflow.com/a/40597153
      */
     private void takePicture() {
-        lockFocus();
+        if (mAutoFocusSupported) {
+            lockFocus();
+        } else {
+            captureStillPicture();
+        }
     }
 
     /**
@@ -822,7 +859,6 @@ public class CameraFragment extends Fragment
                     cameraFragmentListener.onCameraPhotoSaved(savedPhotoPath);
 
                     showToast(getString(R.string.toast_photo_saved));
-                    Log.d(TAG, savedPhotoPath);
                     unlockFocus();
                 }
             };
@@ -992,6 +1028,9 @@ public class CameraFragment extends Fragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.fab_switch:
+                switchCamera();
+                break;
             case R.id.fab_photo:
                 takePicture();
                 break;
@@ -1015,7 +1054,9 @@ public class CameraFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
 
+        FloatingActionButton fabSwitch = view.findViewById(R.id.fab_switch);
         FloatingActionButton fabPhoto = view.findViewById(R.id.fab_photo);
+        fabSwitch.setOnClickListener(this);
         fabPhoto.setOnClickListener(this);
 
         return view;
