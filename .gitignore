@@ -27,7 +27,6 @@ $RECYCLE.BIN/
 .idea/**/workspace.xml
 .idea/assetWizardSettings.xml
 .idea/caches
-.idea/dictionaries
 .idea/httpRequests
 .idea/replstate.xml
 .idea/tasks.xml
