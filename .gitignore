@@ -57,6 +57,7 @@ freeline/
 freeline_project_description.json
 gen/
 google-services.json
+keystore.properties
 local.properties
 out/
 proguard/
