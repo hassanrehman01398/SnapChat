@@ -16,6 +16,6 @@ The app uses (modified versions of) code from the following GitHub projects (tha
 [Secure key signing](https://developer.android.com/studio/publish/app-signing#secure-key) is used in the build.gradle file in the app folder.  
 If you do not want to use key signing, just edit that file accordingly and rebuild.  
 
-I hope you have as much fun with it as I did.
+I hope you have as much fun with it as I did!
 ## Screenshot
 ![Screenshot](eotm.jpg)
