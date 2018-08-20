@@ -12,7 +12,8 @@ The app uses (modified versions of) code from the following GitHub projects (tha
 - [Glide](https://github.com/bumptech/glide)  
 - [MotionViews-Android](https://github.com/uptechteam/MotionViews-Android)  
 - [Android Gesture Detectors](https://github.com/Almeros/android-gesture-detectors)  
-  
-I hope you have as much fun with it as I did.
+## Building the app
+[Secure key signing](https://developer.android.com/studio/publish/app-signing#secure-key) is used in the build.gradle file in the app folder.  
+If you do not want to use key signing please edit that file accordingly and rebuild.
 ## Screenshot
 ![Screenshot](eotm.jpg)
