@@ -11,3 +11,4 @@ The app uses (modified versions of) code from the following GitHub projects:
 - [Android Gesture Detectors](https://github.com/Almeros/android-gesture-detectors)
 
 Hopefully you have as much fun with it as I did.
+![Screenshot](eotm.jpg)
