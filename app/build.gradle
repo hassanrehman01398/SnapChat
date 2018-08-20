@@ -15,6 +15,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+
     compileSdkVersion 27
 
     defaultConfig {
