@@ -1,4 +1,4 @@
-package nl.renevane.employeeofthemonth.entity;
+package nl.renevane.employeeofthemonth.Models.entity;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

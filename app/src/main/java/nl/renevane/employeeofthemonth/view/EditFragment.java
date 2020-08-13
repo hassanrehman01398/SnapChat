@@ -1,4 +1,4 @@
-package nl.renevane.employeeofthemonth;
+package nl.renevane.employeeofthemonth.view;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
@@ -21,8 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import nl.renevane.employeeofthemonth.entity.ImageEntity;
-import nl.renevane.employeeofthemonth.entity.MotionEntityLayer;
+import nl.renevane.employeeofthemonth.Models.entity.ImageEntity;
+import nl.renevane.employeeofthemonth.Models.entity.MotionEntityLayer;
+import nl.renevane.employeeofthemonth.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

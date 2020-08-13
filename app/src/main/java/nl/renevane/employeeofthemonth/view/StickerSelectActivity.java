@@ -1,4 +1,4 @@
-package nl.renevane.employeeofthemonth;
+package nl.renevane.employeeofthemonth.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.renevane.employeeofthemonth.R;
+
 /**
  * selects stickers
  * result - int, resource id of the sticker, bundled at key EXTRA_STICKER_ID
@@ -29,6 +31,11 @@ public class StickerSelectActivity extends AppCompatActivity {
     public static final String EXTRA_STICKER_ID = "extra_sticker_id";
 
     private final int[] stickerIds = {
+            R.drawable.filter1,
+            R.drawable.filter2,
+            R.drawable.filter3,
+            R.drawable.filter4,
+            R.drawable.filter5,
             R.drawable.sticker_bar,
             R.drawable.sticker_beard_brown_mustache,
             R.drawable.sticker_beard_hipster,

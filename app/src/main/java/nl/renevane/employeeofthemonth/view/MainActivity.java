@@ -1,12 +1,14 @@
-package nl.renevane.employeeofthemonth;
+package nl.renevane.employeeofthemonth.view;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import nl.renevane.employeeofthemonth.R;
+
 public class MainActivity extends AppCompatActivity
-        implements CameraFragmentListener, EditFragmentListener {
+        implements CameraFragmentListener, EditFragmentListener{
 
     // create fragment instances
     private final CameraFragment cameraFragment = new CameraFragment();

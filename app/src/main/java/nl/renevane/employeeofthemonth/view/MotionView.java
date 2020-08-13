@@ -1,4 +1,4 @@
-package nl.renevane.employeeofthemonth;
+package nl.renevane.employeeofthemonth.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -21,9 +21,10 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.renevane.employeeofthemonth.entity.MotionEntity;
-import nl.renevane.employeeofthemonth.gesture.MoveGestureDetector;
-import nl.renevane.employeeofthemonth.gesture.RotateGestureDetector;
+import nl.renevane.employeeofthemonth.Models.entity.MotionEntity;
+import nl.renevane.employeeofthemonth.R;
+import nl.renevane.employeeofthemonth.controller.gesture.MoveGestureDetector;
+import nl.renevane.employeeofthemonth.controller.gesture.RotateGestureDetector;
 
 public class MotionView extends FrameLayout {
 

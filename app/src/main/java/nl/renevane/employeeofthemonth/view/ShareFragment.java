@@ -1,4 +1,4 @@
-package nl.renevane.employeeofthemonth;
+package nl.renevane.employeeofthemonth.view;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import nl.renevane.employeeofthemonth.R;
 
 public class ShareFragment extends Fragment implements View.OnClickListener {
 
@@ -126,10 +128,27 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
             Uri sharedFileUri
                     = FileProvider.getUriForFile(getActivity()
                     , getString(R.string.provider_authority), new File(currentImage));
-
+       //     Uri imgUri = Uri.parse(pictureFile.getAbsolutePath());
+//            Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+//            whatsappIntent.setType("text/plain");
+//            whatsappIntent.setPackage("com.whatsapp");
+//            whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+//            whatsappIntent.putExtra(Intent.EXTRA_STREAM, imgUri);
+//            whatsappIntent.setType("image/jpeg");
+//            whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//            try {
+//                activity.startActivity(whatsappIntent);
+//            } catch (android.content.ActivityNotFoundException ex) {
+//                ToastHelper.MakeShortText("Whatsapp have not been installed.");
+//            }
             Intent intentShare = new Intent(Intent.ACTION_SEND);
+
+           // intentShare.setPackage("com.whatsapp");
+            //intentShare.setPackage("com.google.android.gm");
             intentShare.setType("image/jpeg");
             intentShare.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
+            intentShare.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(Intent.createChooser(intentShare, ""));
         }
     }

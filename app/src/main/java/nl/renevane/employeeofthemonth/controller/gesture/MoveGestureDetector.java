@@ -1,4 +1,4 @@
-package nl.renevane.employeeofthemonth.gesture;
+package nl.renevane.employeeofthemonth.controller.gesture;
 
 import android.content.Context;
 import android.graphics.PointF;

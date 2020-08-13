@@ -1,4 +1,4 @@
-package nl.renevane.employeeofthemonth;
+package nl.renevane.employeeofthemonth.view;
 
 import android.Manifest;
 import android.animation.AnimatorInflater;
@@ -60,6 +60,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
+import nl.renevane.employeeofthemonth.R;
 
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -855,6 +857,7 @@ public class CameraFragment extends Fragment
 
                     // pass the path of the saved photo to the activity
                     String savedPhotoPath;
+                    //Log.d("hasasn",mFile.getAbsolutePath());
                     savedPhotoPath = mFile.toString();
                     cameraFragmentListener.onCameraPhotoSaved(savedPhotoPath);
 

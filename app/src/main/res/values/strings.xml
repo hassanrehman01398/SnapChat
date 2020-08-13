@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Employee of the month</string>
+    <string name="app_name">Novi employee of the month</string>
     <string name="activity_add_sticker">Add sticker</string>
     <string name="nav_text_camera">Camera</string>
     <string name="nav_text_edit">Edit</string>
