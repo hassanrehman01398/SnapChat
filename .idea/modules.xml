@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Employeeofthemonth.iml" filepath="$PROJECT_DIR$/Employeeofthemonth.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/employee-of-the-month.iml" filepath="$PROJECT_DIR$/.idea/modules/employee-of-the-month.iml" group="employee-of-the-month" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/employee-of-the-month-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/employee-of-the-month-app.iml" group="employee-of-the-month/app" />
     </modules>
   </component>
 </project>
