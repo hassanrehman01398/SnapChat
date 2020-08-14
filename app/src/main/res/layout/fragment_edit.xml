@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/edit_preview_description" />
 
-        <nl.renevane.employeeofthemonth.view.MotionView
+        <nl.renevane.employee.view.MotionView
             android:id="@+id/motion_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -124,6 +124,21 @@
             android:theme="@style/MyFloatingActionButtonStyle"
             app:fabSize="auto"
             app:srcCompat="@drawable/icon_fab_next"
+            app:useCompatPadding="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/control"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="145dp"
+            android:clickable="true"
+            android:focusable="true"
+
+            android:theme="@style/MyFloatingActionButtonStyle"
+            app:fabSize="auto"
+            app:srcCompat="@drawable/gallery"
             app:useCompatPadding="true" />
 
         <android.support.design.widget.FloatingActionButton

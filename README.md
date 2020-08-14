@@ -9,8 +9,8 @@ The app uses its own application folder to store .jpg files. It only needs permi
 ## Source material
 The app uses (modified versions of) code from the following GitHub projects (thanks!):  
 - [Camera2Basic](https://github.com/googlesamples/android-Camera2Basic)  
-- [Glide](https://github.com/bumptech/glide)  
-- [MotionViews-Android](https://github.com/uptechteam/MotionViews-Android)  
+- [Glide](https://github.com/bumptech/glide)
+- [MotionViews-Android](https://github.com/uptechteam/MotionViews-Android)
 - [Android Gesture Detectors](https://github.com/Almeros/android-gesture-detectors)  
 ## Building the app
 [Secure key signing](https://developer.android.com/studio/publish/app-signing#secure-key) is used in the build.gradle file in the app folder.  
