@@ -16,18 +16,15 @@ import nl.renevane.employee.R;
 public class MainActivity extends AppCompatActivity
         implements CameraFragmentListener, EditFragmentListener{
 
-    // create fragment instances
     private final CameraFragment cameraFragment = new CameraFragment();
     private final EditFragment editFragment = new EditFragment();
     private final ShareFragment shareFragment = new ShareFragment();
 
-    // send path of saved photo from photo fragment to edit fragment
     @Override
     public void onCameraPhotoSaved(String path) {
         editFragment.addToImageList(path);
     }
 
-    // send path of saved edited image from edit fragment to share fragment
     @Override
     public void onEditedImageSaved(String path) {
         shareFragment.addToImageList(path);
@@ -40,7 +37,6 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
-    // react to clicks on the nav buttons
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener
             = item -> {
 
@@ -58,10 +54,8 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        // show the selected fragment
         showFragment(selectedFragment);
 
-        // highlight the clicked navigation item
         return true;
     };
 
@@ -70,23 +64,18 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // hook a listener onto the bottom navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // when the app is first started
         if (savedInstanceState == null) {
-            // highlight the edit button
             bottomNav.setSelectedItemId(R.id.nav_edit);
 
-            // show the edit fragment
             showFragment(editFragment);
 
             String storageFolder = getExternalFilesDir(null).toString();
             String photoFilterPattern = getString(R.string.pattern_filter_photo);
             String imageFilterPattern = getString(R.string.pattern_filter_image);
 
-            // load previously saved images (if any)
             editFragment.createImageList(storageFolder, photoFilterPattern);
             shareFragment.createImageList(storageFolder, imageFilterPattern);
 

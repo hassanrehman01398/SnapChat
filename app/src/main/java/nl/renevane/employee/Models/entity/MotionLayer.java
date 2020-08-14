@@ -10,27 +10,15 @@ import android.support.annotation.FloatRange;
 
 public class MotionLayer {
 
-    /**
-     * rotation relative to the layer center, in degrees
-     */
     @FloatRange(from = 0.0F, to = 360.0F)
     private float rotationInDegrees;
-    /**
-     * entity scale is relative to its parent size
-     * scale == 1.0 means it will fit the parent
-     */
+
     private float scale;
-    /**
-     * top left X coordinate, relative to parent canvas
-     */
+
     private float x;
-    /**
-     * top left Y coordinate, relative to parent canvas
-     */
+
     private float y;
-    /**
-     * is layer flipped horizontally (by X-coordinate)
-     */
+
     private boolean isFlipped;
 
     public MotionLayer() {
@@ -46,9 +34,7 @@ public class MotionLayer {
     }
 
     public void postScale(float scaleDiff) {
-        // float newVal = scale + scaleDiff;
-        // fix scale bug according to:
-        // https://github.com/uptechteam/MotionViews-Android/pull/19/files
+
         float newVal = scale * scaleDiff;
         if (newVal >= getMinScale() && newVal <= getMaxScale()) {
             scale = newVal;

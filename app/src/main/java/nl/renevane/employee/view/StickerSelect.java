@@ -127,6 +127,6 @@ public class StickerSelect extends AppCompatActivity {
                 });
             }
         }
-    } // class StickersAdapter
+    }
 
 }

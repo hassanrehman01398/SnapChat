@@ -10,12 +10,13 @@ import android.view.MotionEvent;
  praktijk 1
 
  */
+//this class is extending base class to call some of the methods of the base classs
 public class MoveGDetector extends BaseG_Detector {
 
-    private static final PointF FOCUS_DELTA_ZERO = new PointF();
+    private static final PointF focus_delta_zero = new PointF();
     private final OnMoveGestureListener Listener;
-    private PointF FocusExternal = new PointF();
-    private PointF FocusDeltaExternal = new PointF();
+    private PointF focus_external = new PointF();
+    private PointF focus_delta_external = new PointF();
 
     public MoveGDetector(Context context, OnMoveGestureListener listener) {
         super(context);
@@ -28,8 +29,8 @@ public class MoveGDetector extends BaseG_Detector {
             case MotionEvent.ACTION_DOWN:
                 resetState(); // In case we missed an UP/CANCEL event
 
-                PrevEvent = MotionEvent.obtain(event);
-                TimeDelta = 0;
+                previous_event = MotionEvent.obtain(event);
+                delta_time = 0;
 
                 updateStateByEvent(event);
                 break;
@@ -53,55 +54,51 @@ public class MoveGDetector extends BaseG_Detector {
                 updateStateByEvent(event);
 
 
-                if (CurrPressure / PrevPressure > PRESSURE_THRESHOLD) {
+                if (current_pressure / previous_pressure > PRESSURE_THRESHOLD) {
                     final boolean updatePrevious = Listener.onMove(this);
                     if (updatePrevious) {
-                        PrevEvent.recycle();
-                        PrevEvent = MotionEvent.obtain(event);
+                        previous_event.recycle();
+                        previous_event = MotionEvent.obtain(event);
                     }
                 }
                 break;
         }
     }
 
-    public void updateStateByEvent(MotionEvent curr) {
-        super.updateStateByEvent(curr);
+    public void updateStateByEvent(MotionEvent current) {
+        super.updateStateByEvent(current);
 
-        final MotionEvent prev = PrevEvent;
+        final MotionEvent prev = previous_event;
 
-        // Focus internal
-        PointF mCurrFocusInternal = determineFocalPoint(curr);
+        PointF mcurrentFocusInternal = determineFocalPoint(current);
         PointF mPrevFocusInternal = determineFocalPoint(prev);
 
-        // Focus external
-        // - Prevent skipping of focus delta when a finger is added or removed
-        boolean mSkipNextMoveEvent = prev.getPointerCount() != curr.getPointerCount();
-        FocusDeltaExternal = mSkipNextMoveEvent ? FOCUS_DELTA_ZERO : new PointF(mCurrFocusInternal.x - mPrevFocusInternal.x, mCurrFocusInternal.y - mPrevFocusInternal.y);
+        boolean mSkipNextMoveEvent = prev.getPointerCount() != current.getPointerCount();
+        focus_delta_external = mSkipNextMoveEvent ? focus_delta_zero : new PointF(mcurrentFocusInternal.x - mPrevFocusInternal.x, mcurrentFocusInternal.y - mPrevFocusInternal.y);
 
-        // - Don't directly use mFocusInternal (or skipping will occur). Add
-        // 	 unskipped delta values to FocusExternal instead.
-        FocusExternal.x += FocusDeltaExternal.x;
-        FocusExternal.y += FocusDeltaExternal.y;
+
+        focus_external.x += focus_delta_external.x;
+        focus_external.y += focus_delta_external.y;
     }
 
 
-    private PointF determineFocalPoint(MotionEvent e) {
-        // Number of fingers on screen
-        final int pCount = e.getPointerCount();
-        float x = 0f;
-        float y = 0f;
+    private PointF determineFocalPoint(MotionEvent event) {
+
+        final int pCount = event.getPointerCount();
+        float x_axis = 0f;
+        float y_axis = 0f;
 
         for (int i = 0; i < pCount; i++) {
-            x += e.getX(i);
-            y += e.getY(i);
+            x_axis  += event.getX(i);
+            y_axis  += event.getY(i);
         }
 
-        return new PointF(x / pCount, y / pCount);
+        return new PointF(x_axis / pCount, y_axis / pCount);
     }
 
 
     public PointF getFocusDelta() {
-        return FocusDeltaExternal;
+        return focus_delta_external;
     }
 
 
@@ -117,7 +114,7 @@ public class MoveGDetector extends BaseG_Detector {
         }
 
         public void onMoveEnd(MoveGDetector detector) {
-            // Do nothing, overridden implementation may be used
+
         }
     }
     public interface OnMoveGestureListener {

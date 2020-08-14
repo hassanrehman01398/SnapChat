@@ -10,13 +10,15 @@ import android.view.MotionEvent;
 public abstract class BaseG_Detector {
 
     public static final float PRESSURE_THRESHOLD = 0.67f;
+    public long delta_time;
     public final Context mContext;
+    public float current_pressure;
     public boolean GestureInProgress;
-    public MotionEvent PrevEvent;
-    public MotionEvent CurrEvent;
-    public float CurrPressure;
-    public float PrevPressure;
-    public long TimeDelta;
+    public MotionEvent previous_event;
+    public MotionEvent current_event;
+   
+    public float previous_pressure;
+  
 
 
     public BaseG_Detector(Context context) {
@@ -31,41 +33,41 @@ public abstract class BaseG_Detector {
     public abstract void handleInProgressEvent(int actionCode, MotionEvent event);
 
 
-    public void updateStateByEvent(MotionEvent curr) {
-        final MotionEvent prev = PrevEvent;
+    public void updateStateByEvent(MotionEvent current) {
+        final MotionEvent previous = previous_event;
 
-        // Reset CurrEvent
-        if (CurrEvent != null) {
-            CurrEvent.recycle();
-            CurrEvent = null;
+        // Reset current_event
+        if (current_event != null) {
+            current_event.recycle();
+            current_event = null;
         }
-        CurrEvent = MotionEvent.obtain(curr);
+        current_event = MotionEvent.obtain(current);
 
 
-        // Delta time
-        TimeDelta = curr.getEventTime() - prev.getEventTime();
+        //To get  Delta time we will subtract current time by prevoius time
+        delta_time = current.getEventTime() -previous.getEventTime();
 
         // Pressure
-        CurrPressure = curr.getPressure(curr.getActionIndex());
-        PrevPressure = prev.getPressure(prev.getActionIndex());
+        current_pressure = current.getPressure(current.getActionIndex());
+        previous_pressure = previous.getPressure(previous.getActionIndex());
     }
-
+    //This will reset states like previous and current state
     public void resetState() {
-        if (PrevEvent != null) {
-            PrevEvent.recycle();
-            PrevEvent = null;
-        }
-        if (CurrEvent != null) {
-            CurrEvent.recycle();
-            CurrEvent = null;
-        }
         GestureInProgress = false;
+
+        if (current_event != null) {
+            current_event.recycle();
+            current_event = null;
+        }
+        if (previous_event != null) {
+            previous_event.recycle();
+            previous_event = null;
+        }
+
+
     }
-
-
-
-
     public void onTouchEvent(MotionEvent event) {
+
         final int actionCode = event.getAction() & MotionEvent.ACTION_MASK;
         if (!GestureInProgress) {
             handleStartProgressEvent(actionCode, event);

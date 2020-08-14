@@ -10,9 +10,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.TextureView;
 
-/**
- * A {@link TextureView} that can be adjusted to a specified aspect ratio.
- */
 public class CameraAutoFit extends TextureView {
 
     private int ration_width = 0;

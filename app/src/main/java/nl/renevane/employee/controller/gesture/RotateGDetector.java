@@ -22,18 +22,17 @@ public class RotateGDetector extends TwoFingerGDetector {
     public void handleStartProgressEvent(int actionCode, MotionEvent event) {
         switch (actionCode) {
             case MotionEvent.ACTION_POINTER_DOWN:
-                // At least the second finger is on screen now
 
-                resetState(); // In case we missed an UP/CANCEL event
-                PrevEvent = MotionEvent.obtain(event);
-                TimeDelta = 0;
+                resetState();
+                previous_event = MotionEvent.obtain(event);
+                delta_time = 0;
 
                 updateStateByEvent(event);
 
-                // See if we have a sloppy gesture
+
                 SloppyGesture = isSloppyGesture(event);
                 if (!SloppyGesture) {
-                    // No, start gesture now
+
                     GestureInProgress = Listener.onRotateBegin(this);
                 }
                 break;
@@ -43,10 +42,9 @@ public class RotateGDetector extends TwoFingerGDetector {
                     break;
                 }
 
-                // See if we still have a sloppy gesture
                 SloppyGesture = isSloppyGesture(event);
                 if (!SloppyGesture) {
-                    // No, start normal gesture now
+
                     GestureInProgress = Listener.onRotateBegin(this);
                 }
 
@@ -65,7 +63,7 @@ public class RotateGDetector extends TwoFingerGDetector {
     public void handleInProgressEvent(int actionCode, MotionEvent event) {
         switch (actionCode) {
             case MotionEvent.ACTION_POINTER_UP:
-                // Gesture ended but
+
                 updateStateByEvent(event);
 
                 if (!SloppyGesture) {
@@ -86,14 +84,11 @@ public class RotateGDetector extends TwoFingerGDetector {
             case MotionEvent.ACTION_MOVE:
                 updateStateByEvent(event);
 
-                // Only accept the event if our relative pressure is within
-                // a certain limit. This can help filter shaky data as a
-                // finger is lifted.
-                if (CurrPressure / PrevPressure > PRESSURE_THRESHOLD) {
+                if (current_pressure / previous_pressure> PRESSURE_THRESHOLD) {
                     final boolean updatePrevious = Listener.onRotate(this);
                     if (updatePrevious) {
-                        PrevEvent.recycle();
-                        PrevEvent = MotionEvent.obtain(event);
+                        previous_event.recycle();
+                        previous_event = MotionEvent.obtain(event);
                     }
                 }
                 break;
@@ -108,7 +103,7 @@ public class RotateGDetector extends TwoFingerGDetector {
 
 
     public float getRotationDegreesDelta() {
-        double diffRadians = Math.atan2(PrevFingerDiffY, PrevFingerDiffX) - Math.atan2(CurrFingerDiffY, CurrFingerDiffX);
+        double diffRadians = Math.atan2(prevoius_finger_diff_Y, prevoius_finger_diff_X) - Math.atan2(current_finger_diff_Y, current_finger_diff_X);
         return (float) (diffRadians * 180 / Math.PI);
     }
 
@@ -132,7 +127,7 @@ public class RotateGDetector extends TwoFingerGDetector {
         }
 
         public void onRotateEnd(RotateGDetector detector) {
-            // Do nothing, overridden implementation may be used
+
         }
     }
 }

@@ -155,10 +155,7 @@ public class MotionView extends FrameLayout {
     public void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
 
-        // dispatch draw is called after child views are drawn
-        // the idea that is we draw background stickers, then child views (if any), and then selected item
-        // to draw on top of child views - do it in dispatchDraw(Canvas)
-        // to draw below that - do it in onDraw(Canvas)
+
         if (selectedEntity != null) {
             selectedEntity.draw(canvas, selectedLayerPaint);
         }
@@ -181,12 +178,7 @@ public class MotionView extends FrameLayout {
         }
     }
 
-    /**
-     * as a side effect - the method deselects Entity (if any selected)
-     * see also https://stackoverflow.com/questions/6320294/how-to-clean-up-a-bitmap
-     *
-     * @return bitmap with all the Entities at their current positions
-     */
+
     public Bitmap getMotionViewBitmap() {
         selectEntity(null, false);
 
@@ -359,9 +351,7 @@ public class MotionView extends FrameLayout {
         public boolean onScale(ScaleGestureDetector detector) {
             if (selectedEntity != null) {
                 float scaleFactorDiff = detector.getScaleFactor();
-                // selectedEntity.getLayer().postScale(scaleFactorDiff - 1.0F);
-                // fix scale bug according to:
-                // https://github.com/uptechteam/MotionViews-Android/pull/19/files
+
                 selectedEntity.getLayer().postScale(scaleFactorDiff);
                 updateUI();
             }

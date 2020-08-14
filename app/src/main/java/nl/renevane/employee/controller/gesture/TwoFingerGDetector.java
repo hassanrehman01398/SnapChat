@@ -12,12 +12,12 @@ import android.view.ViewConfiguration;
 public abstract class TwoFingerGDetector extends BaseG_Detector {
 
     private final float EdgeSlop;
-    public float PrevFingerDiffX;
-    public float PrevFingerDiffY;
-    public float CurrFingerDiffX;
-    public float CurrFingerDiffY;
-    private float CurrLen;
-    private float PrevLen;
+    public float prevoius_finger_diff_X;
+    public float prevoius_finger_diff_Y;
+    public float current_finger_diff_X;
+    public float current_finger_diff_Y;
+    private float current_lens;
+    private float previous_len;
 
     public TwoFingerGDetector(Context context) {
         super(context);
@@ -52,10 +52,10 @@ public abstract class TwoFingerGDetector extends BaseG_Detector {
     public void updateStateByEvent(MotionEvent curr) {
         super.updateStateByEvent(curr);
 
-        final MotionEvent prev = PrevEvent;
+        final MotionEvent prev = previous_event;
 
-        CurrLen = -1;
-        PrevLen = -1;
+        current_lens = -1;
+        previous_len = -1;
 
         // Previous
         final float px0 = prev.getX(0);
@@ -64,8 +64,8 @@ public abstract class TwoFingerGDetector extends BaseG_Detector {
         final float py1 = prev.getY(1);
         final float pvx = px1 - px0;
         final float pvy = py1 - py0;
-        PrevFingerDiffX = pvx;
-        PrevFingerDiffY = pvy;
+        prevoius_finger_diff_X = pvx;
+        prevoius_finger_diff_Y = pvy;
 
         // Current
         final float cx0 = curr.getX(0);
@@ -74,28 +74,28 @@ public abstract class TwoFingerGDetector extends BaseG_Detector {
         final float cy1 = curr.getY(1);
         final float cvx = cx1 - cx0;
         final float cvy = cy1 - cy0;
-        CurrFingerDiffX = cvx;
-        CurrFingerDiffY = cvy;
+        current_finger_diff_X = cvx;
+        current_finger_diff_Y = cvy;
     }
 
 
     public float getCurrentSpan() {
-        if (CurrLen == -1) {
-            final float cvx = CurrFingerDiffX;
-            final float cvy = CurrFingerDiffY;
-            CurrLen = (float) Math.sqrt(cvx * cvx + cvy * cvy);
+        if (current_lens == -1) {
+            final float cvx = current_finger_diff_X;
+            final float cvy = current_finger_diff_Y;
+            current_lens = (float) Math.sqrt(cvx * cvx + cvy * cvy);
         }
-        return CurrLen;
+        return current_lens;
     }
 
 
     public float getPreviousSpan() {
-        if (PrevLen == -1) {
-            final float pvx = PrevFingerDiffX;
-            final float pvy = PrevFingerDiffY;
-            PrevLen = (float) Math.sqrt(pvx * pvx + pvy * pvy);
+        if (previous_len == -1) {
+            final float pvx = prevoius_finger_diff_X;
+            final float pvy = prevoius_finger_diff_Y;
+            previous_len = (float) Math.sqrt(pvx * pvx + pvy * pvy);
         }
-        return PrevLen;
+        return previous_len;
     }
 
 
