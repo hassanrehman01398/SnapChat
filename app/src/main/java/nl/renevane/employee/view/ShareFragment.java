@@ -40,7 +40,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         File folder = new File(storageFolder);
         File[] files = folder.listFiles((file, s) -> s.matches(pattern));
 
-        // listFiles method does not guarantee an ordered list
+
         Arrays.sort(files);
 
         for (File f : files) {
@@ -52,7 +52,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // called by EditFragment through MainActivity
+
     public void addToImageList(String path) {
         currentImage = path;
         imageList.add(path);
@@ -93,8 +93,6 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         set.start();
     }
 
-    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
-    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
     private void showImageInSharePreview(String path) {
         GlideApp.with(this)
                 .load(path)

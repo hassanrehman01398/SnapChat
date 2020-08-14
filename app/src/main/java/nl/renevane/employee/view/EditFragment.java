@@ -57,7 +57,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
 
     private static int RESULT_LOAD_IMAGE = 1;
-    // make a pattern-matched list of image paths from the storage folder
+
     public void createImageList(String storageFolder, String pattern) {
         File folder = new File(storageFolder);
         File[] files = folder.listFiles((file, s) -> s.matches(pattern));
@@ -74,7 +74,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // called by CameraFragment through MainActivity
+
     public void addToImageList(String path) {
         currentImage = path;
         imageList.add(path);
@@ -159,8 +159,6 @@ gallery.setOnClickListener(this);
         return new SimpleDateFormat(getString(R.string.month_pattern)).format(calendar.getTime());
     }
 
-    // Glide (https://bumptech.github.io/glide/) makes image handling much easier
-    // Also recommended by Google (https://developer.android.com/topic/performance/graphics/)
     private void showImageInEditPreview(String path) {
         GlideApp.with(getContext())
                 .load(path)
@@ -227,17 +225,6 @@ gallery.setOnClickListener(this);
         }
     }
 
-    // get valid sticker selection data on returning from StickerSelect
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK && requestCode == SELECT_STICKER_REQUEST_CODE && data != null) {
-//            int stickerId = data.getIntExtra(StickerSelect.EXTRA_STICKER_ID, 0);
-//            if (stickerId != 0) {
-//                addSticker(stickerId);
-//            }
-//        }
-//    }
 
     private void addSticker(final int stickerResId) {
         MotionLayer layer = new MotionLayer();

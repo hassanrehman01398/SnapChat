@@ -86,9 +86,6 @@ public class ShoveGDetector extends TwoFingerGDetector {
             case MotionEvent.ACTION_MOVE:
                 updateStateByEvent(event);
 
-                // Only accept the event if our relative pressure is within
-                // a certain limit. This can help filter shaky data as a
-                // finger is lifted. Also check that shove is meaningful.
                 if (CurrPressure / PrevPressure > PRESSURE_THRESHOLD
                         && Math.abs(getShovePixelsDelta()) > 0.5f) {
                     final boolean updatePrevious = Listener.onShove(this);
@@ -147,13 +144,7 @@ public class ShoveGDetector extends TwoFingerGDetector {
         CurrAverageY = 0.0f;
     }
 
-    /**
-     * Listener which must be implemented which is used by ShoveGDetector
-     * to perform callbacks to any implementing class which is registered to a
-     * ShoveGDetector via the constructor.
-     *
-     * @see ShoveGDetector.SimpleOnShoveGestureListener
-     */
+
     public interface OnShoveGestureListener {
         boolean onShove(ShoveGDetector detector);
 
@@ -162,11 +153,7 @@ public class ShoveGDetector extends TwoFingerGDetector {
         void onShoveEnd(ShoveGDetector detector);
     }
 
-    /**
-     * Helper class which may be extended and where the methods may be
-     * implemented. This way it is not necessary to implement all methods
-     * of OnShoveGestureListener.
-     */
+
     public static class SimpleOnShoveGestureListener implements OnShoveGestureListener {
         public boolean onShove(ShoveGDetector detector) {
             return false;

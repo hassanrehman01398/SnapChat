@@ -306,10 +306,7 @@ public class CameraFragment extends Fragment
         super.onResume();
         startBackgroundThread();
 
-        // When the screen is turned off and turned back on, the SurfaceTexture is already
-        // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
-        // a camera and start preview from here (otherwise, we wait until the surface is ready in
-        // the SurfaceTextureListener).
+
         if (TextureView.isAvailable()) {
             openCamera(TextureView.getWidth(), TextureView.getHeight());
         } else {
@@ -380,27 +377,7 @@ public class CameraFragment extends Fragment
                 }
             }
         });
-//        builder.setItems(items, new DialogInterface.OnClickListener(
-//            @Override
-//            public void onClick(DialogInterface dialog, int item) {
-//                boolean result=Utility.checkPermission(MainActivity.this);
-//
-//                if (items[item].equals("Take Photo")) {
-//                    userChoosenTask ="Take Photo";
-//                    if(result)
-//                        cameraIntent();
-//
-//                } else if (items[item].equals("Choose from Library")) {
-//                    userChoosenTask ="Choose from Library";
-//                    if(result)
-//                        galleryIntent();
-//
-//                } else if (items[item].equals("Cancel")) {
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-//        builder.show();
+
     }
 
     private void galleryIntent()
@@ -544,35 +521,7 @@ public class CameraFragment extends Fragment
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-//            if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-//                ErrorDialog.newInstance(getString(R.string.request_permission))
-//                        .show(getChildFragmentManager(), FRAGMENT_DIALOG);
-//            }
-//        } else {
-//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        }
-//    }
 
-    /**
-     * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
-     * is at least as large as the respective texture view size, and that is at most as large as the
-     * respective max size, and whose aspect ratio matches with the specified value. If such size
-     * doesn't exist, choose the largest one that is at most as large as the respective max size,
-     * and whose aspect ratio matches with the specified value.
-     *
-     * @param choices           The list of sizes that the camera supports for the intended output
-     *                          class
-     * @param textureViewWidth  The width of the texture view relative to sensor coordinate
-     * @param textureViewHeight The height of the texture view relative to sensor coordinate
-     * @param maxWidth          The maximum width that can be chosen
-     * @param maxHeight         The maximum height that can be chosen
-     * @param aspectRatio       The aspect ratio
-     * @return The optimal {@code Size}, or an arbitrary one if none were big enough
-     */
     private static Size chooseOptimalSize(Size[] choices,
                                           int textureViewWidth,
                                           int textureViewHeight,
@@ -611,8 +560,7 @@ public class CameraFragment extends Fragment
     }
 
     /*
-     * Code for switching cameras
-     * https://stackoverflow.com/a/48680929
+
      */
     private void switchCamera() {
         if (lens_facing_direction == CameraCharacteristics.LENS_FACING_BACK) {
@@ -635,13 +583,7 @@ public class CameraFragment extends Fragment
         }
     }
 
-    /**
-     * Sets up member variables related to camera.
-     *
-     * @param width  The width of available size for camera preview
-     * @param height The height of available size for camera preview
-     */
-    @SuppressWarnings("SuspiciousNameCombination")
+
     private void setUpCameraOutputs(int width, int height) {
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
