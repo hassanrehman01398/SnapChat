@@ -63,7 +63,6 @@ public abstract class Motion {
 
 
     public void updateMatrix() {
-        // init matrix to E - identity matrix
         matrix.reset();
 
         float topLeftX = layer.getX() * canvasWidth;
@@ -77,20 +76,16 @@ public abstract class Motion {
         float scaleX = layer.getScale();
         float scaleY = layer.getScale();
         if (layer.isFlipped()) {
-            // flip (by X-coordinate) if needed
             rotationInDegree *= -1.0F;
             scaleX *= -1.0F;
         }
 
 
 
-        // scaling of matrix
         matrix.preScale(scaleX, scaleY, centerX, centerY);
 
-        // rotatation of matrix
         matrix.preRotate(rotationInDegree, centerX, centerY);
 
-        // this will translate the matrix.Translation is changing x and y
         matrix.preTranslate(topLeftX, topLeftY);
 
 
@@ -147,14 +142,7 @@ public abstract class Motion {
         return pointInTriangle(point, pA, pB, pC) || pointInTriangle(point, pA, pD, pC);
     }
 
-    /**
 
-     * @param pt point to check
-     * @param v1 vertex 1 of the triangle
-     * @param v2 vertex 2 of the triangle
-     * @param v3 vertex 3 of the triangle
-     * @return true if point (x, y) is inside the triangle
-     */
     public static boolean pointInTriangle(@NonNull PointF pt, @NonNull PointF v1,
                                           @NonNull PointF v2, @NonNull PointF v3) {
 
@@ -165,39 +153,16 @@ public abstract class Motion {
         return (b1 == b2) && (b2 == b3);
     }
 
-    /**
-     * calculates cross product of vectors AB and AC
-     *
-     * @param a beginning of 2 vectors
-     * @param b end of vector 1
-     * @param c enf of vector 2
-     * @return cross product AB * AC
-     */
     private static float crossProduct(@NonNull PointF a, @NonNull PointF b, @NonNull PointF c) {
         return crossProduct(a.x, a.y, b.x, b.y, c.x, c.y);
     }
 
-    /**
-     * calculates cross product of vectors AB and AC
-     *
-     * @param ax X coordinate of point A
-     * @param ay Y coordinate of point A
-     * @param bx X coordinate of point B
-     * @param by Y coordinate of point B
-     * @param cx X coordinate of point C
-     * @param cy Y coordinate of point C
-     * @return cross product AB * AC
-     */
+
     private static float crossProduct(float ax, float ay, float bx, float by, float cx, float cy) {
         return (ax - cx) * (by - cy) - (bx - cx) * (ay - cy);
     }
 
-    /**
-     * http://judepereira.com/blog/calculate-the-real-scale-factor-and-the-angle-of-rotation-from-an-android-matrix/
-     *
-     * @param canvas       Canvas to draw
-     * @param drawingPaint Paint to use during drawing
-     */
+
     public final void draw(@NonNull Canvas canvas, @Nullable Paint drawingPaint) {
 
         updateMatrix();
@@ -222,9 +187,9 @@ public abstract class Motion {
 
     private void drawSelectedBg(Canvas canvas) {
         matrix.mapPoints(destPoints, srcPoints);
-        //noinspection Range
+
         canvas.drawLines(destPoints, 0, 8, borderPaint);
-        //noinspection Range
+
         canvas.drawLines(destPoints, 2, 8, borderPaint);
     }
 
@@ -252,7 +217,7 @@ public abstract class Motion {
         try {
             release();
         } finally {
-            //noinspection ThrowFromFinallyBlock
+
             super.finalize();
         }
     }

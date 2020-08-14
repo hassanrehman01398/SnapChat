@@ -73,6 +73,16 @@
             android:text="@string/fragment_text_edit"
             android:textAlignment="center"
             android:textSize="20sp" />
+        <TextView
+            android:id="@+id/text_fragment_edit1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="460dp"
+            android:layout_marginLeft="18sp"
+android:textColor="@color/colorPrimary"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="15sp" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_sticker_add"

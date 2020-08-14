@@ -54,7 +54,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private FrameLayout employeeOfTheMonthFrame;
     static final int SELECT_STICKER_REQUEST_CODE = 123;
     private EditFragmentListener editFragmentListener;
-
+TextView t;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -140,6 +140,7 @@ gallery.setOnClickListener(this);
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         editPreview = view.findViewById(R.id.edit_preview);
 
+t=view.findViewById(R.id.text_fragment_edit1);
         motion = view.findViewById(R.id.motion_view);
         combinedView = view.findViewById(R.id.combined_view);
         employeeOfTheMonthFrame = view.findViewById(R.id.frame_employeeofthemonth);
@@ -160,6 +161,10 @@ gallery.setOnClickListener(this);
     }
 
     private void showImageInEditPreview(String path) {
+        Calendar c = Calendar.getInstance();
+        System.out.println();
+
+        t.setText("Novi medewerker van de "+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) );
         GlideApp.with(getContext())
                 .load(path)
                 .into(editPreview);
@@ -282,7 +287,7 @@ gallery.setOnClickListener(this);
     private void saveBitmap(Bitmap bitmap) {
         // the actual file name with complete path
         String saveFolder = getActivity().getExternalFilesDir(null).toString();
-        String fileName = (new SimpleDateFormat(getString(R.string.pattern_filename_image), Locale.US)
+        String fileName = "NOVI Employee of the "+(new SimpleDateFormat(getString(R.string.pattern_filename_image), Locale.US)
                 .format(new Date()));
 
         String outputStreamDestination = saveFolder + "/" + fileName;
