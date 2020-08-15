@@ -5,7 +5,9 @@ Qais Safdary
  praktijk 1
 *
 * */
-
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.text.*;
 import android.Manifest;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
@@ -171,9 +173,9 @@ t=view.findViewById(R.id.text_fragment_edit1);
         // get the month name in the language set on the device
         return new SimpleDateFormat(getString(R.string.month_pattern)).format(calendar.getTime());
     }
+    Calendar c = Calendar.getInstance();
 
     private void showImageInEditPreview(String path) {
-        Calendar c = Calendar.getInstance();
         System.out.println();
 
         t.setText("Novi medewerker van de "+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH ) );
@@ -282,9 +284,20 @@ t=view.findViewById(R.id.text_fragment_edit1);
     // combined image will be saved only if there is an image AND at least one sticker
     private void saveMergedImage() {
         if (currentImage != null && !motion.getEntities().isEmpty()) {
+            Bitmap bitmap = getBitmapFromView(combinedView); // Load your bitmap here
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            paint.setColor(Color.RED);
+            paint.setTextSize(50);
+
+            paint.setFakeBoldText(true);
+            //"Novi medewerker van de "+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH )
+            canvas.drawText("Novi medewerker van de "+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ,150, 50, paint);
+canvas.save();
             unhidemedewerkervandemaandFrame();
             motion.unselectEntity();
-            saveBitmap(getBitmapFromView(combinedView));
+
+            saveBitmap(bitmap);
             hidemedewerkervandemaandFrame();
         }
     }
@@ -302,6 +315,14 @@ t=view.findViewById(R.id.text_fragment_edit1);
                 .createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setTextSize(50);
+        paint.setFakeBoldText(true);
+
+        canvas.drawText("Novi medewerker van de "+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ,150, 50, paint);
+
         return bitmap;
     }
     private void requeststoragePermission() {
