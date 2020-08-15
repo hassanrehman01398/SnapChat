@@ -6,11 +6,15 @@ Qais Safdary
 *
 * */
 
+import android.Manifest;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,10 +22,15 @@ import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,15 +52,16 @@ import java.util.*;
 import static android.app.Activity.RESULT_OK;
 
 public class EditFragment extends Fragment implements View.OnClickListener {
-
+     static int REQUEST_STORAGE = 1;
     private String currentImage;
     private final List<String> imageList = new ArrayList<>();
     private int lastImageInList;
     private int imageListIndex;
     private ImageView editPreview;
+    private static final String FRAGMENT_DIALOG = "dialog";
     private MotionView motion;
     private FrameLayout combinedView;
-    private FrameLayout employeeOfTheMonthFrame;
+    private FrameLayout medewerkervandemaandFrame;
     static final int SELECT_STICKER_REQUEST_CODE = 123;
     private EditFragmentListener editFragmentListener;
 TextView t;
@@ -110,8 +120,10 @@ gallery.setOnClickListener(this);
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(resultCode+"hassan afnan",requestCode+"");
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
@@ -143,7 +155,7 @@ gallery.setOnClickListener(this);
 t=view.findViewById(R.id.text_fragment_edit1);
         motion = view.findViewById(R.id.motion_view);
         combinedView = view.findViewById(R.id.combined_view);
-        employeeOfTheMonthFrame = view.findViewById(R.id.frame_employeeofthemonth);
+        medewerkervandemaandFrame = view.findViewById(R.id.frame_medewerkervandemaand);
 
         TextView fragmentText = view.findViewById(R.id.text_fragment_edit);
 
@@ -196,13 +208,22 @@ t=view.findViewById(R.id.text_fragment_edit1);
                 saveMergedImage();
                 break;
             case R.id.gallery:
+                if(ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)
+                {
+                    Toast.makeText(getContext(), "Please Grant Storage Permission", Toast.LENGTH_SHORT).show();
+                    requeststoragePermission();
+                    // Permission is not granted
+                }
+                else {
+                    Intent i = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-                break;
+                    startActivityForResult(i, RESULT_LOAD_IMAGE);
+                    break;
+                }
         }
     }
 
@@ -261,19 +282,19 @@ t=view.findViewById(R.id.text_fragment_edit1);
     // combined image will be saved only if there is an image AND at least one sticker
     private void saveMergedImage() {
         if (currentImage != null && !motion.getEntities().isEmpty()) {
-            unhideEmployeeOfTheMonthFrame();
+            unhidemedewerkervandemaandFrame();
             motion.unselectEntity();
             saveBitmap(getBitmapFromView(combinedView));
-            hideEmployeeOfTheMonthFrame();
+            hidemedewerkervandemaandFrame();
         }
     }
 
-    private void unhideEmployeeOfTheMonthFrame() {
-        employeeOfTheMonthFrame.setVisibility(View.VISIBLE);
+    private void unhidemedewerkervandemaandFrame() {
+        medewerkervandemaandFrame.setVisibility(View.VISIBLE);
     }
 
-    private void hideEmployeeOfTheMonthFrame() {
-        employeeOfTheMonthFrame.setVisibility(View.INVISIBLE);
+    private void hidemedewerkervandemaandFrame() {
+        medewerkervandemaandFrame.setVisibility(View.INVISIBLE);
     }
 
     private Bitmap getBitmapFromView(View view) {
@@ -283,7 +304,13 @@ t=view.findViewById(R.id.text_fragment_edit1);
         view.draw(canvas);
         return bitmap;
     }
-
+    private void requeststoragePermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
+        } else {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
+        }
+    }
     private void saveBitmap(Bitmap bitmap) {
         // the actual file name with complete path
         String saveFolder = getActivity().getExternalFilesDir(null).toString();
@@ -320,5 +347,25 @@ t=view.findViewById(R.id.text_fragment_edit1);
             activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_SHORT).show());
         }
     }
+    public static class ConfirmationDialog extends DialogFragment {
 
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Fragment parent = getParentFragment();
+            return new AlertDialog
+                    .Builder(getActivity())
+                    .setMessage(R.string.request_permission)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> parent.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_STORAGE))
+                    .setNegativeButton(android.R.string.cancel,
+                            (dialog, which) -> {
+                                Activity activity = parent.getActivity();
+                                if (activity != null) {
+                                    activity.finish();
+                                }
+                            })
+                    .create();
+        }
+    }
 }

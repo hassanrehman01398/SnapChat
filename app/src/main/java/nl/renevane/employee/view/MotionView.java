@@ -6,17 +6,16 @@ Qais Safdary
 *
 * */
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GestureDetectorCompat;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -80,8 +79,7 @@ public class MotionView extends FrameLayout {
     }
 
     @SuppressWarnings("unused")
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MotionView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+   public MotionView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }

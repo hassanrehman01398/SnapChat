@@ -2,26 +2,29 @@
 <manifest
 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="nl.renevane.employee">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
 
         android:allowBackup="true"
+        android:requestLegacyExternalStorage="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/employee"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Apptheme">
+        android:theme="@style/Apptheme"
+        tools:replace="android:appComponentFactory"
+        android:grantUriPermissions="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory">
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.myfileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

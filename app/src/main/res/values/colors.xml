@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">	#FF0000</color>
     <color name="colorAccent">	#FF0000</color>
     <color name="stroke_color">#8CF437</color>
-    <color name="text_background_employeeofthemonth">#FFFFFF</color>
+    <color name="text_background_medewerkervandemaand">#FFFFFF</color>
 </resources>

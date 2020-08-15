@@ -25,11 +25,11 @@
             android:contentDescription="@string/motion_view_description" />
 
         <FrameLayout
-            android:id="@+id/frame_employeeofthemonth"
+            android:id="@+id/frame_medewerkervandemaand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:background="@color/text_background_employeeofthemonth"
+            android:background="@color/text_background_medewerkervandemaand"
             android:padding="16dp"
             android:visibility="invisible">
 
@@ -39,7 +39,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="50dp"
                 android:fontFamily="cursive"
-                android:text="@string/text_overlay_employeeofthemonth"
+                android:text="@string/text_overlay_medewerkervandemaand"
                 android:textAlignment="center"
                 android:textSize="25sp"
                 android:textStyle="normal" />
@@ -84,7 +84,7 @@ android:textColor="@color/colorPrimary"
             android:textAlignment="center"
             android:textSize="15sp" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_sticker_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@ android:textColor="@color/colorPrimary"
             app:srcCompat="@drawable/icon_fab_sticker_add"
             app:useCompatPadding="true" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_sticker_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -110,7 +110,7 @@ android:textColor="@color/colorPrimary"
             app:srcCompat="@drawable/icon_fab_sticker_remove"
             app:useCompatPadding="true" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_sticker_flip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@ android:textColor="@color/colorPrimary"
             app:srcCompat="@drawable/icon_fab_sticker_flip"
             app:useCompatPadding="true" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -136,7 +136,7 @@ android:textColor="@color/colorPrimary"
             app:srcCompat="@drawable/icon_fab_next"
             app:useCompatPadding="true" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,7 +151,7 @@ android:textColor="@color/colorPrimary"
             app:srcCompat="@drawable/gallery"
             app:useCompatPadding="true" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

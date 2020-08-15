@@ -6,7 +6,7 @@ Qais Safdary
 *
 * */
 
-import android.support.annotation.FloatRange;
+import androidx.annotation.FloatRange;
 
 public class MotionLayer {
 
