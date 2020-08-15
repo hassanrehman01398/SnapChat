@@ -288,7 +288,7 @@ t=view.findViewById(R.id.text_fragment_edit1);
             Canvas canvas = new Canvas(bitmap);
             Paint paint = new Paint();
             paint.setColor(Color.RED);
-            paint.setTextSize(50);
+            paint.setTextSize(35);
 
             paint.setFakeBoldText(true);
             //"Novi medewerker van de "+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH )
@@ -318,7 +318,7 @@ canvas.save();
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        paint.setTextSize(50);
+        paint.setTextSize(35);
         paint.setFakeBoldText(true);
 
         canvas.drawText("Novi medewerker van de "+c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ,150, 50, paint);
